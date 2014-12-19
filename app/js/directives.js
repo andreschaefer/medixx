@@ -1,0 +1,16 @@
+'use strict';
+
+/* Directives */
+var phonecatDirectives = angular.module('phonecatDirectives',['phonecatServices']);
+
+phonecatDirectives.directive('navigation', function (routeNavigation) {
+    return {
+        restrict: "E",
+        replace: true,
+        templateUrl: "partials/navigation-directive.html",
+        controller: function ($scope) {
+            $scope.routes = routeNavigation.routes;
+            $scope.activeRoute = routeNavigation.activeRoute;
+        }
+    };
+});
