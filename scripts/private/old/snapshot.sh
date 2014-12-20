@@ -3,7 +3,7 @@
 ROOT_DIR=`dirname $0`/../..
 cd $ROOT_DIR
 
-SNAP_DIR=angular-phonecat-snapshots
+SNAP_DIR=angular-medixx-snapshots
 SANDBOX_DIR=$SNAP_DIR/sandbox
 
 
@@ -26,12 +26,12 @@ do
     cp -r test/unit test/e2e $SNAP_DIR/step-$i/test
     rm -r $SNAP_DIR/step-$i/app/img
     rm -r $SNAP_DIR/step-$i/app/lib
-    rm -rf $SNAP_DIR/step-$i/app/phones
+    rm -rf $SNAP_DIR/step-$i/app/medics
   fi
 
   if [[ $i = 5 ]]; then
     cp -r app/img $SNAP_DIR/step-0/app/
-    cp -r app/phones $SNAP_DIR/step-0/app/
+    cp -r app/medics $SNAP_DIR/step-0/app/
   fi
 done
 
@@ -42,6 +42,6 @@ cp scripts/private/goto_step.bat $SANDBOX_DIR
 # Install karma modules
 cp -r node_modules/ $SANDBOX_DIR/
 
-zip -r angular-phonecat-`date +"%y%m%d_%H%M"` $SNAP_DIR
+zip -r angular-medixx-`date +"%y%m%d_%H%M"` $SNAP_DIR
 
 git checkout master

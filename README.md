@@ -1,10 +1,10 @@
-# AngularJS Phone Catalog Tutorial Application
+# AngularJS Medic Catalog Tutorial Application
 
 ## Overview
 
 This application takes the developer through the process of building a web-application using
-angular. The application is loosely based on the **Google Phone Gallery**, which no longer
-exists. Here is a historical reference: [Google Phone Gallery on WayBack](http://web.archive.org/web/20131215082038/http://www.android.com/devices/).
+angular. The application is loosely based on the **Google Medic Gallery**, which no longer
+exists. Here is a historical reference: [Google Medic Gallery on WayBack](http://web.archive.org/web/20131215082038/http://www.android.com/devices/).
 
 Each tagged commit is a separate lesson teaching a single aspect of angular.
 
@@ -47,17 +47,17 @@ To see the changes which between any two lessons use the git diff command.
 
 ### step-1
 
-- Add static html list with two phones into index.html. We will convert this static page into
+- Add static html list with two medics into index.html. We will convert this static page into
   dynamic one with the help of angular.
 
 
 ### step-2
 
 - Convert the static html list into dynamic one by:
-  - creating `PhoneListCtrl` controller for the application.
+  - creating `MedicListCtrl` controller for the application.
   - extracting the data from HTML, moving it into the controller as an in-memory dataset.
   - converting the static HTML document into an Angular template with the use of the `ngRepeat`
-    directive which iterates over the dataset of phones.
+    directive which iterates over the dataset of medics.
     `ngRepeat` clones its contents for each instance in the dataset and renders it into the view.
 - Add a simple unit test to show off how to write tests and run them with Karma.
 
@@ -68,7 +68,7 @@ To see the changes which between any two lessons use the git diff command.
 - Add a search box to demonstrate how:
   - the data-binding works on input fields.
   - to use the `filter` filter.
-  - `ngRepeat` automatically shrinks and grows the number of phones in the view.
+  - `ngRepeat` automatically shrinks and grows the number of medics in the view.
 - Add an end-to-end test to:
   - show how end-to-end tests are written and how to run them with Protractor.
   - prove that the search box and the repeater are correctly wired together.
@@ -76,23 +76,23 @@ To see the changes which between any two lessons use the git diff command.
 
 ### step-4
 
-- Add `age` property to each phone in the data model.
-- Add a `<select>` input to change the phone list order.
+- Add `age` property to each medic in the data model.
+- Add a `<select>` input to change the medic list order.
 - Override the default order value in the controller.
 - Add unit and e2e tests for this feature.
 
 ### step-5
 
 - Replace the in-memory dataset with data loaded from the server (in
-  the form of static `phones.json` file).
-  - The `phones.json` file is loaded using the `$http` service.
+  the form of static `medics.json` file).
+  - The `medics.json` file is loaded using the `$http` service.
 - Demonstrate the use of [services][service] and [dependency injection][DI].
   - The [$http] service is injected into the controller through [dependency injection][DI].
 
 
 ### step-6
 
-- Add phone images and links to new pages that show the phone details.
+- Add medic images and links to new pages that show the medic details.
 - Add end2end tests that verify the links to the detail pages.
 - Add CSS to style the page just a notch.
 
@@ -101,43 +101,43 @@ To see the changes which between any two lessons use the git diff command.
 
 - Introduce the [$route] service which allows binding URLs for deep-linking with
   views:
-  - Create `PhoneCatCtrl` which governs the entire app and contains $route configuration.
+  - Create `medixxCtrl` which governs the entire app and contains $route configuration.
   - Install `angular-route` using bower and load the `ngRoute` module.
     (Be sure to run npm install again.)
   - Copy route parameters to root scope `params` property for access in sub controllers.
   - Replace the contents of `index.html` with the `ngView` directive, which will display the partial
     template of the current route.
 
-- Create phone list route:
-  - Map `/phones` route to `PhoneListCtrl` and `partials/phones-list.html`.
-  - Preserve existing `PhoneListCtrl` controller.
-  - Move existing html from `index.html` to `partials/phone-list.html`.
-- Create phone details route:
-  - Map `/phones/<phone-id>` route to `PhoneDetailCtrl` and `partials/phones-detail.html`.
-  - Create empty placeholder `PhoneDetailsCtrl` controller.
+- Create medic list route:
+  - Map `/medics` route to `MedicListCtrl` and `partials/medics-list.html`.
+  - Preserve existing `MedicListCtrl` controller.
+  - Move existing html from `index.html` to `partials/medic-list.html`.
+- Create medic details route:
+  - Map `/medics/<medic-id>` route to `MedicDetailCtrl` and `partials/medics-detail.html`.
+  - Create empty placeholder `MedicDetailsCtrl` controller.
 
 
 ### step-8
 
 
-- Implement `PhoneDetailCtrl` controller to fetch the details for a specific phone from a JSON file
+- Implement `MedicDetailCtrl` controller to fetch the details for a specific medic from a JSON file
   using `$http` service.
-- Update the template for the phone detailed view.
-- Add CSS to make the phone details page look "pretty".
+- Update the template for the medic detailed view.
+- Add CSS to make the medic details page look "pretty".
 
 
 ### step-9
 
 - Add custom `checkmark` filter.
-- Update phone detail template to use `checkmark` filter.
+- Update medic detail template to use `checkmark` filter.
 - Add unit test for the filter.
 
 ### step-10
 
-In the phone detail view, clicking on a thumbnail image, changes the main phone image to be the
+In the medic detail view, clicking on a thumbnail image, changes the main medic image to be the
 large version of the thumbnail image.
 
-- Define `mainImageUrl` model variable in the `PhoneDetailCtrl` and set its default value.
+- Define `mainImageUrl` model variable in the `MedicDetailCtrl` and set its default value.
 - Create `setImage()` controller method to change `mainImageUrl`.
 - Register an expression with the `ngClick` directive on thumb images to set the main image, using
   `setImage()`.
@@ -148,17 +148,17 @@ large version of the thumbnail image.
 ### step-11
 
 - Replace [$http] with [$resource].
-- Created a custom `Phone` service that represents the `$resource` client.
+- Created a custom `Medic` service that represents the `$resource` client.
 
 
 ### step-12
 
 - Add animations to the application:
-  - Animate changes to the phone list, adding, removing and reordering phones.
-  - Animate changes to the main phone image in the detail view.
+  - Animate changes to the medic list, adding, removing and reordering medics.
+  - Animate changes to the main medic image in the detail view.
 
 
-## Development with angular-phonecat
+## Development with angular-medixx
 
 The following docs describe how you can test and develop further this application.
 

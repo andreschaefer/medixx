@@ -2,20 +2,20 @@
 
 /* Services */
 
-var phonecatServices = angular.module('phonecatServices', ['ngResource']);
+var medixxServices = angular.module('medixxServices', ['ngResource']);
 
-phonecatServices.factory(
-    'Phone',
+medixxServices.factory(
+    'Medic',
     [
         '$resource',
-    function ($resource) {
-        return $resource('phones/:phoneId.json', {}, {
-            query: {method: 'GET', params: {phoneId: 'phones'}, isArray: true}
-        });
-    }
-]);
+        function ($resource) {
+            return $resource('medics/:userId.json', {}, {
+                query: {method: 'GET', params: {userId: 'aschaefer'}}
+            });
+        }
+    ]);
 
-phonecatServices.factory('routeNavigation', function($route, $location) {
+medixxServices.factory('routeNavigation', function ($route, $location) {
     var routes = [];
     angular.forEach($route.routes, function (route, path) {
         if (route.name) {

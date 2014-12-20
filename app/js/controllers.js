@@ -2,21 +2,21 @@
 
 /* Controllers */
 
-var phonecatControllers = angular.module('phonecatControllers', []);
+var medixxControllers = angular.module('medixxControllers', []);
 
-phonecatControllers.controller('PhoneListCtrl', ['$scope', 'Phone',
-  function($scope, Phone) {
-    $scope.phones = Phone.query();
-    $scope.orderProp = 'age';
-  }]);
+medixxControllers.controller('MedicListCtrl', ['$scope', '$log','Medic',
+    function ($scope, $log, Medic) {
+        $scope.user = Medic.query();
+        $scope.orderProp = 'name';
+    }]);
 
-phonecatControllers.controller('PhoneDetailCtrl', ['$scope', '$routeParams', 'Phone',
-  function($scope, $routeParams, Phone) {
-    $scope.phone = Phone.get({phoneId: $routeParams.phoneId}, function(phone) {
-      $scope.mainImageUrl = phone.images[0];
-    });
+medixxControllers.controller('MedicDetailCtrl', ['$scope', '$routeParams', 'Medic',
+    function ($scope, $routeParams, Medic) {
+        $scope.medic = Medic.get({medicId: $routeParams.medicId}, function (medic) {
+            $scope.mainImageUrl = medic.images[0];
+        });
 
-    $scope.setImage = function(imageUrl) {
-      $scope.mainImageUrl = imageUrl;
-    }
-  }]);
+        $scope.setImage = function (imageUrl) {
+            $scope.mainImageUrl = imageUrl;
+        }
+    }]);

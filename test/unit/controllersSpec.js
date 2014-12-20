@@ -1,7 +1,7 @@
 'use strict';
 
 /* jasmine specs for controllers go here */
-describe('PhoneCat controllers', function() {
+describe('medixx controllers', function() {
 
   beforeEach(function(){
     this.addMatchers({
@@ -11,27 +11,27 @@ describe('PhoneCat controllers', function() {
     });
   });
 
-  beforeEach(module('phonecatApp'));
-  beforeEach(module('phonecatServices'));
+  beforeEach(module('medixxApp'));
+  beforeEach(module('medixxServices'));
 
-  describe('PhoneListCtrl', function(){
+  describe('MedicListCtrl', function(){
     var scope, ctrl, $httpBackend;
 
     beforeEach(inject(function(_$httpBackend_, $rootScope, $controller) {
       $httpBackend = _$httpBackend_;
-      $httpBackend.expectGET('phones/phones.json').
+      $httpBackend.expectGET('medics/medics.json').
           respond([{name: 'Nexus S'}, {name: 'Motorola DROID'}]);
 
       scope = $rootScope.$new();
-      ctrl = $controller('PhoneListCtrl', {$scope: scope});
+      ctrl = $controller('MedicListCtrl', {$scope: scope});
     }));
 
 
-    it('should create "phones" model with 2 phones fetched from xhr', function() {
-      expect(scope.phones).toEqualData([]);
+    it('should create "medics" model with 2 medics fetched from xhr', function() {
+      expect(scope.medics).toEqualData([]);
       $httpBackend.flush();
 
-      expect(scope.phones).toEqualData(
+      expect(scope.medics).toEqualData(
           [{name: 'Nexus S'}, {name: 'Motorola DROID'}]);
     });
 
@@ -42,11 +42,11 @@ describe('PhoneCat controllers', function() {
   });
 
 
-  describe('PhoneDetailCtrl', function(){
+  describe('MedicDetailCtrl', function(){
     var scope, $httpBackend, ctrl,
-        xyzPhoneData = function() {
+        xyzMedicData = function() {
           return {
-            name: 'phone xyz',
+            name: 'medic xyz',
                 images: ['image/url1.png', 'image/url2.png']
           }
         };
@@ -54,19 +54,19 @@ describe('PhoneCat controllers', function() {
 
     beforeEach(inject(function(_$httpBackend_, $rootScope, $routeParams, $controller) {
       $httpBackend = _$httpBackend_;
-      $httpBackend.expectGET('phones/xyz.json').respond(xyzPhoneData());
+      $httpBackend.expectGET('medics/xyz.json').respond(xyzMedicData());
 
-      $routeParams.phoneId = 'xyz';
+      $routeParams.medicId = 'xyz';
       scope = $rootScope.$new();
-      ctrl = $controller('PhoneDetailCtrl', {$scope: scope});
+      ctrl = $controller('MedicDetailCtrl', {$scope: scope});
     }));
 
 
-    it('should fetch phone detail', function() {
-      expect(scope.phone).toEqualData({});
+    it('should fetch medic detail', function() {
+      expect(scope.medic).toEqualData({});
       $httpBackend.flush();
 
-      expect(scope.phone).toEqualData(xyzPhoneData());
+      expect(scope.medic).toEqualData(xyzMedicData());
     });
   });
 });

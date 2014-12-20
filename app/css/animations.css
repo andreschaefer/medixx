@@ -2,36 +2,36 @@
  * animations css stylesheet
  */
 
-/* animate ngRepeat in phone listing */
+/* animate ngRepeat in medic listing */
 
-.phone-listing.ng-enter,
-.phone-listing.ng-leave,
-.phone-listing.ng-move {
+.medic-listing.ng-enter,
+.medic-listing.ng-leave,
+.medic-listing.ng-move {
   -webkit-transition: 0.5s linear all;
   -moz-transition: 0.5s linear all;
   -o-transition: 0.5s linear all;
   transition: 0.5s linear all;
 }
 
-.phone-listing.ng-enter,
-.phone-listing.ng-move {
+.medic-listing.ng-enter,
+.medic-listing.ng-move {
   opacity: 0;
   height: 0;
   overflow: hidden;
 }
 
-.phone-listing.ng-move.ng-move-active,
-.phone-listing.ng-enter.ng-enter-active {
+.medic-listing.ng-move.ng-move-active,
+.medic-listing.ng-enter.ng-enter-active {
   opacity: 1;
   height: 120px;
 }
 
-.phone-listing.ng-leave {
+.medic-listing.ng-leave {
   opacity: 1;
   overflow: hidden;
 }
 
-.phone-listing.ng-leave.ng-leave-active {
+.medic-listing.ng-leave.ng-leave-active {
   opacity: 0;
   height: 0;
   padding-top: 0;

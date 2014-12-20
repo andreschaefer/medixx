@@ -1,9 +1,9 @@
 'use strict';
 
 /* Directives */
-var phonecatDirectives = angular.module('phonecatDirectives',['phonecatServices']);
+var medixxDirectives = angular.module('medixxDirectives',['medixxServices']);
 
-phonecatDirectives.directive('navigation', function (routeNavigation) {
+medixxDirectives.directive('navigation', function (routeNavigation) {
     return {
         restrict: "E",
         replace: true,

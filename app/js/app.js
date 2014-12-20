@@ -2,28 +2,29 @@
 
 /* App Module */
 
-var phonecatApp = angular.module('phonecatApp', [
+var medixxApp = angular.module('medixxApp', [
     'ngRoute',
-    'phonecatAnimations',
-    'phonecatDirectives',
-    'phonecatControllers',
-    'phonecatFilters',
-    'phonecatServices'
+    'medixxAnimations',
+    'medixxDirectives',
+    'medixxControllers',
+    'medixxFilters',
+    'medixxServices'
 ]);
 
-phonecatApp.config(['$routeProvider',
-    function ($routeProvider) {
+medixxApp.config(
+    ['$routeProvider', function ($routeProvider) {
         $routeProvider.
-            when('/phones', {
-                templateUrl: 'partials/phone-list.html',
-                controller: 'PhoneListCtrl',
-                name: 'Phones'
+            when('/medics', {
+                templateUrl: 'partials/medic-list.html',
+                controller: 'MedicListCtrl',
+                name: 'Bestand'
             }).
-            when('/phones/:phoneId', {
-                templateUrl: 'partials/phone-detail.html',
-                controller: 'PhoneDetailCtrl'
+            when('/medics/:medicId', {
+                templateUrl: 'partials/medic-detail.html',
+                controller: 'MedicDetailCtrl'
             }).
             otherwise({
-                redirectTo: '/phones'
+                redirectTo: '/medics'
             });
-    }]);
+    }]
+);
