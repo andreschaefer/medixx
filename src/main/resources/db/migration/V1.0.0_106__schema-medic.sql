@@ -12,7 +12,7 @@ CREATE TABLE stock
   name        NVARCHAR(255)            NOT NULL,
   date        TIMESTAMP                NOT NULL,
   stock       INTEGER                  NOT NULL,
-  cunsumption INTEGER                  NOT NULL
+  consumption INTEGER                  NOT NULL
 );
 
 CREATE TABLE medics_stocks (
