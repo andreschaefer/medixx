@@ -93,7 +93,7 @@ medixxServices.factory('$users', function ($log) {
             data: JSON.stringify(user),
             contentType: 'application/json',
             cache: false,
-            url: '/user/' + user.id
+            url: '/medics/' + user.id
         })
             .done(function (user) {
                 $log.debug('Success: Save user remote', user);
@@ -118,7 +118,7 @@ medixxServices.factory('$users', function ($log) {
                 type: 'GET',
                 dataType: "json",
                 cache: false,
-                url: '/user/' + userId
+                url: '/medics/' + userId
             };
 
             $.ajax(request)

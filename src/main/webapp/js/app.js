@@ -29,8 +29,12 @@ medixxApp.config(
             .when('/user/:userId/medics/:medicId', {
                 templateUrl: 'partials/medic-detail.html',
                 controller: 'MedicDetailCtrl'
-            }).
-            otherwise({
+            })
+            .when('/user/:userId/edit/:medicId', {
+                templateUrl: 'partials/medic-edit.html',
+                controller: 'MedicEditCtrl'
+            })
+            .otherwise({
                 redirectTo: '/user/aschaefer/medics'
             });
     }]

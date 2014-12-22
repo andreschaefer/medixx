@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <div class="row" ng-repeat="medic in user.stocks | filter:medicId" >
+    <div class="row" >
         <div class="col-xs-12">
             <h2>{{medic.name}}</h2>
             <table class="table">
@@ -19,7 +19,7 @@
                 </tr>
                 </tbody>
             </table>
-            <button type="button" class="btn btn-default" ng-click="add(user,medic,20)">+ 20</button>
+            <button type="button" class="btn btn-default" ng-click="add(20)">+ 20</button>
         </div>
     </div>
 </div>
