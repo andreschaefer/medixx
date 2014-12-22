@@ -20,6 +20,7 @@ CREATE TABLE medics_stocks (
   stocks VARCHAR(255) NOT NULL
 );
 
+CREATE UNIQUE INDEX UK_medics_stocks_medics ON medics_stocks (medics);
 ALTER TABLE medics_stocks ADD CONSTRAINT FK_medics_stocks_stocks FOREIGN KEY (stocks) REFERENCES stock;
 ALTER TABLE medics_stocks ADD CONSTRAINT FK_medics_stocks_medics FOREIGN KEY (medics) REFERENCES medics;
 
