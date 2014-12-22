@@ -1,0 +1,21 @@
+{
+  "id": "aschaefer",
+  "user": "aschaefer",
+  "date": "2014-11-01T22:18:56.789Z",
+  "medics": [
+    {
+      "id": "aspirin",
+      "name": "Aspirin",
+      "consumption": "3",
+      "date": "2014-11-01T22:18:56.789Z",
+      "stock": "60"
+    },
+    {
+      "id": "paracetamol",
+      "name": "Paracetamol",
+      "consumption": "1",
+      "date": "2014-11-01T22:18:56.789Z",
+      "stock": "120"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+<div class="container-fluid">
+    <div class="row" >
+        <div class="col-xs-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Sorte</th>
+                        <th>Bestand</th>
+                        <th>Tage</th>
+                        <th>Reicht bis</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="medic in user.medics | filter:query | orderBy:orderProp">
+                        <td>
+                            <a href="#/user/{{userId}}/medics/{{medic.id}}">{{medic.name}}</a><br/>
+                        </td>
+                        <td>{{medic.stock }}</td>
+                        <td>{{medic.remainingDays }}</td>
+                        <td>{{medic.depleted | date:'dd.MM.yyyy'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+<div class="container-fluid">
+    <div class="row" ng-repeat="medic in user.medics | filter:medicId" >
+        <div class="col-xs-12">
+            <h2>{{medic.name}}</h2>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Bestand</th>
+                    <th>Tage</th>
+                    <th>Reicht bis</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr >
+                    </td>
+                    <td>{{medic.stock }}</td>
+                    <td>{{medic.remainingDays }}</td>
+                    <td>{{medic.depleted | date:'dd.MM.yyyy'}}</td>
+                </tr>
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-default" ng-click="add(user,medic,20)">+ 20</button>
+        </div>
+    </div>
+</div>

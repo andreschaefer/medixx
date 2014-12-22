@@ -6,12 +6,10 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "angular": "1.3.x",
-    "jquery": "1.10.2",
-    "angular-route": "1.3.x",
-    "angular-resource": "1.3.x",
-    "angular-animate": "1.3.x",
-    "angular-cached-resource": "x",
-    "bootstrap": "3.3.x"
+    "angular": "x",
+    "jquery": "x",
+    "angular-route": "x",
+    "angular-animate": "x",
+    "bootstrap": "x"
   }
 }
