@@ -1,35 +1,24 @@
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-xs-12">
-            <form class="form-inline" role="form">
-                <div class="form-group">
-                    <div class="input-group">
-                        <label class="sr-only" for="query">Search</label>
-                        <input ng-model="query" class="form-control" id="query" placeholder="Query">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="sr-only" for="sort">Sort By</label>
-                    <select ng-model="orderProp" class="form-control" id="sort">
-                        <option value="name">Name</option>
-                        <option value="amount">Menge</option>
-                    </select>
-                </div>
-            </form>
-        </div>
-    </div>
     <div class="row" >
         <div class="col-xs-12">
             <table class="table">
+                <thead>
+                    <tr>
+                        <th>Sorte</th>
+                        <th>Bestand</th>
+                        <th>Tage</th>
+                        <th>Reicht bis</th>
+                    </tr>
+                </thead>
                 <tbody>
-                <tr ng-repeat="medic in user.medics | filter:query | orderBy:orderProp">
-                    <td>
-                        <a href="#/medics/{{medic.id}}">{{medic.name}}</a><br/>
-                    </td>
-                    <td>{{medic.amount}}</td>
-                    <td>{{medic.gone}}</td>
-                </tr>
+                    <tr ng-repeat="medic in medics | filter:query | orderBy:orderProp">
+                        <td>
+                            <a href="#/medics/{{medic.id}}">{{medic.name}}</a><br/>
+                        </td>
+                        <td>{{medic.stock }}</td>
+                        <td>{{medic.remainingDays }}</td>
+                        <td>{{medic.depleted | date:'dd.MM.yyyy'}}</td>
+                    </tr>
                 </tbody>
             </table>
         </div>

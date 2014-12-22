@@ -1,46 +1,19 @@
 {
   "user": "aschaefer",
-  "date": "2014-04-23T18:25:43.511Z",
   "medics": [
     {
       "id": "aspirin",
-      "barcode": "2099123456789",
       "name": "Aspirin",
-      "amount": "37",
-      "added": "2014-04-23T18:25:43.511Z",
-      "created": "2014-04-23T18:25:43.511Z",
-      "updated": "2014-04-23T18:25:43.511Z",
-      "gone": "2014-04-23T18:25:43.511Z",
-      "consumptions": [
-        {
-          "time": "08:00",
-          "amount": "1"
-        },
-        {
-          "time": "12:00",
-          "amount": "1"
-        },
-        {
-          "time": "18:00",
-          "amount": "1"
-        }
-      ]
+      "consumption": "3",
+      "date": "2014-11-01T22:18:56.789Z",
+      "stock": "60"
     },
     {
       "id": "paracetamol",
-      "barcode": "2099987654321",
       "name": "Paracetamol",
-      "amount": "21",
-      "added": "2014-04-23T18:25:43.511Z",
-      "created": "2014-04-23T18:25:43.511Z",
-      "updated": "2014-04-23T18:25:43.511Z",
-      "gone": "2014-04-23T18:25:43.511Z",
-      "consumptions": [
-        {
-          "time": "12:00",
-          "amount": "1"
-        }
-      ]
+      "consumption": "1",
+      "date": "2014-11-01T22:18:56.789Z",
+      "stock": "120"
     }
   ]
 }

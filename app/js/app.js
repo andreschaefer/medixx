@@ -8,18 +8,26 @@ var medixxApp = angular.module('medixxApp', [
     'medixxDirectives',
     'medixxControllers',
     'medixxFilters',
-    'medixxServices'
+    'medixxServices',
+    'ngCachedResource'
 ]);
 
 medixxApp.config(
     ['$routeProvider', function ($routeProvider) {
-        $routeProvider.
-            when('/medics', {
+        $routeProvider
+            .when('/medics', {
                 templateUrl: 'partials/medic-list.html',
                 controller: 'MedicListCtrl',
-                name: 'Bestand'
-            }).
-            when('/medics/:medicId', {
+            })
+            .when('/settings', {
+                templateUrl: 'partials/settings.html',
+                controller: 'SettingsCtrl',
+            })
+            .when('/logout', {
+                templateUrl: 'partials/settings.html',
+                controller: 'SettingsCtrl',
+            })
+            .when('/medics/:medicId', {
                 templateUrl: 'partials/medic-detail.html',
                 controller: 'MedicDetailCtrl'
             }).

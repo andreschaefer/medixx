@@ -1,15 +1,23 @@
-<nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" ng-click="showMobileNav = !showMobileNav">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-    </div>
-    <div class="collapse navbar-collapse" ng-class="{in: showMobileNav}">
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse hidden-print" >
+    <div class="container-fluid">
         <ul class="nav navbar-nav">
-            <li ng-repeat="route in routes" ng-class="{active: activeRoute(route)}">
-                <a href="#{{ route.path }}">{{ route.name }}</a>
+            <li ng-class="{active: activeRoute('/medics')}">
+                <a href="#/medics" title="Bestand">
+                    <span class="nav-icon flaticon-drugs5"></span>
+                    <span class="desk-only">&nbsp;Bestand</span>
+                </a>
+            </li>
+            <li ng-class="{active: activeRoute('/settings')}">
+                <a href="#/settings" title="Einstellungen">
+                    <span class="nav-icon glyphicon glyphicon-cog"></span>
+                    <span class="desk-only">&nbsp;Einstellungen</span>
+                </a>
+            </li>
+            <li ng-class="{active: activeRoute('/logout')}">
+                <a href="#/logout" title="Logout">
+                    <span class="nav-icon glyphicon glyphicon-log-out"></span>
+                    <span class="desk-only">&nbsp;Logout</span>
+                </a>
             </li>
         </ul>
     </div>
