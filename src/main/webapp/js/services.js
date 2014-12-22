@@ -37,7 +37,7 @@ medixxServices.factory('$users', function ($log) {
         }
 
 
-        angular.forEach(user.medics, function (medic) {
+        angular.forEach(user.stocks, function (medic) {
             var today = new Date(Date.now());
             medic.stock = medic.stock - consumeCount(medic.date, today, medic.consumption);
             medic.date = today;
@@ -93,7 +93,7 @@ medixxServices.factory('$users', function ($log) {
             data: JSON.stringify(user),
             contentType: 'application/json',
             cache: false,
-            url: './api/user/' + user.id
+            url: '/user/' + user.id
         })
             .done(function (user) {
                 $log.debug('Success: Save user remote', user);
@@ -118,7 +118,7 @@ medixxServices.factory('$users', function ($log) {
                 type: 'GET',
                 dataType: "json",
                 cache: false,
-                url: './api/user/' + userId
+                url: '/user/' + userId
             };
 
             $.ajax(request)

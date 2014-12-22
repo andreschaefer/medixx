@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="basic.xslt"?>
+<pillen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="pillen.xsd">
+    <Datum Jahr="2014" Monat="12" Tag="19"/>
+    <Sorte Name="Duplo" Verbrauch="1" Vorrat="28"/>
+    <Sorte Name="Lion" Verbrauch="2" Vorrat="584"/>
+    <Sorte Name="Bounty" Verbrauch="1" Vorrat="273"/>
+    <Sorte Name="Storck Riesen" Verbrauch="1" Vorrat="264"/>
+    <Sorte Name="Kinder Riegel" Verbrauch="1" Vorrat="276"/>
+    <Sorte Name="Schokohase" Verbrauch="1" Vorrat="279"/>
+    <Sorte Name="Twix" Verbrauch="1" Vorrat="277"/>
+    <Sorte Name="Schokobons" Verbrauch="3" Vorrat="394"/>
+    <Sorte Name="Snickers" Verbrauch="1" Vorrat="272"/>
+    <Sorte Name="Toblerone" Verbrauch="1" Vorrat="95"/>
+</pillen>
