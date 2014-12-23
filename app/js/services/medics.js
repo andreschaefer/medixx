@@ -3,9 +3,26 @@
 angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope',
     function ($log, config, $q, $rootScope) {
         var filename = "medixx.json";
-        var fileId = localStorage.getItem(key("file"));
+        var medics = {"stocks": []};
 
-        function calculate(medics) {
+        $log.debug("initialize with current local version");
+        medics = loadLocal() || medics;
+        calculate();
+        $log.debug("local item", medics);
+
+        if (isDirty()) {
+            // TODO raise alert / error
+        } else {
+            loadRemote(function (remotedata) {
+                medics.stocks = remotedata.stocks;
+                calculate();
+                saveLocal();
+                $rootScope.$digest();
+            })
+        }
+
+
+        function calculate() {
             function daysBetween(first, second) {
                 first = new Date(first);
                 second = new Date(second);
@@ -27,15 +44,15 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
                 return daysBetween(start, end) * consumption;
             }
 
-
-            angular.forEach(medics.stocks, function (medic) {
-                var today = new Date(Date.now());
-                medic.stock = medic.stock - consumeCount(medic.date, today, medic.consumption);
-                medic.date = today;
-                medic.remainingDays = Math.floor(parseInt(medic.stock) / parseInt(medic.consumption));
-                medic.depleted = new Date(today.getTime() + (medic.remainingDays * 24 * 60 * 60 * 1000));
-            });
-            return medics;
+            if (medics) {
+                angular.forEach(medics.stocks, function (medic) {
+                    var today = new Date(Date.now());
+                    medic.stock = medic.stock - consumeCount(medic.date, today, medic.consumption);
+                    medic.date = today;
+                    medic.remainingDays = Math.floor(parseInt(medic.stock) / parseInt(medic.consumption));
+                    medic.depleted = new Date(today.getTime() + (medic.remainingDays * 24 * 60 * 60 * 1000));
+                });
+            }
         }
 
         /**
@@ -73,7 +90,7 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
                 promise = deferred.promise;
             }
             promise.then(function (token) {
-                $log.info(token);
+                $log.debug(token);
                 if (!gapi.client.drive) {
                     gapi.client.load('drive', 'v2', function (token) {
                         if (result && !result.error) {
@@ -90,7 +107,7 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
             return result.promise;
         }
 
-        function saveLocal(medics) {
+        function saveLocal() {
             $log.debug('Store local', key("medics"), medics);
             localStorage.setItem(key("medics"), JSON.stringify(medics));
         }
@@ -107,7 +124,7 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
                 }
             } else {
                 // check if dirty when no toggle provide
-                var dirty = localStorage.getItem(key("dirty"));
+                var dirty = localStorage.getItem(key("dirty")) ? true : false;
                 $log.debug("Is dirty", dirty);
                 return dirty;
             }
@@ -134,7 +151,7 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
          * @param medics object
          * @param {Function} callback Function to call when the request is complete.
          */
-        function saveRemote(medics, callback) {
+        function saveRemote(callback) {
             var boundary = '-------314159265358979323846';
             var delimiter = "\r\n--" + boundary + "\r\n";
             var close_delim = "\r\n--" + boundary + "--";
@@ -168,8 +185,7 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
                 function (file) {
                     $log.debug('Success: Save medics remote', file);
                     isDirty(false);
-                    localStorage.setItem(key("file"), file.id);
-                    if (!callback) {
+                    if (callback) {
                         callback()
                     }
                 },
@@ -182,7 +198,7 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
             );
         }
 
-        function readFromDrive(callback) {
+        function loadRemote(callback) {
             function load(url, callback) {
                 var token = gapi.auth.getToken();
                 $.ajax(
@@ -196,53 +212,34 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
                         }
                     });
             }
-            requireAuth().then(function(){
-                gapi.client.drive.files.list({'q': query})
+
+            requireAuth().then(function () {
+                gapi.client.drive.files.list({'q': "'appfolder' in parents and title='" + filename + "'"})
                     .execute(function (resp) {
                         $log.debug(resp.items);
-                        if (resp.items.length == 0) {
-                            load(resp.items[0].downloadUrl, callback);
+                        if (resp.items.length > 0) {
+                            var metadata = resp.items[0];
+                            load(metadata.downloadUrl, callback);
                         } else {
-                            callback(loadLocal());
+                            saveRemote(medics, callback);
                         }
                     });
             })
         }
 
-        function get(callback) {
-            function load() {
-                $log.debug('Load remote');
-                readFromDrive(function (medics) {
-                    calculate(medics)
-                    if (callback) {
-                        callback(medics);
-                    }
-                })
-            }
-
-            if (!isDirty()) {
-                load();
-            } else {
-                var localUser = loadLocal();
-                if (localUser) {
-                    $log.debug("Try to save dirty object", localUser);
-                    saveRemote(localUser, function () {
-                        load();
-                    });
-                } else {
-                    isDirty(false);
-                    load();
-                }
-            }
+        function get() {
+            return medics;
         }
 
-        function save(medics, callback) {
-            saveLocal(medics);
+        function save(callback) {
+            calculate();
+            saveLocal();
             isDirty(true);
-            saveRemote(medics, callback);
+            saveRemote(callback);
         }
 
         function resetLocal() {
+            medics = {"stocks": []};
             localStorage.clear()
         }
 

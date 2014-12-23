@@ -13,7 +13,7 @@
                 <tbody>
                 <tr ng-repeat="medic in medics.stocks | filter:query | orderBy:orderProp">
                     <td>
-                        <a href="#/user/{{userId}}/medics/{{medic.id}}">{{medic.name}}</a><br/>
+                        <a href="#/detail/{{medic.id}}">{{medic.name}}</a><br/>
                     </td>
                     <td>{{medic.stock }}</td>
                     <td>{{medic.remainingDays }}</td>

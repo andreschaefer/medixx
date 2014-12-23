@@ -2,11 +2,7 @@
 angular.module('Medixx').controller('ListCtrl', ['$scope', '$log', '$routeParams', '$medics',
 
     function ($scope, $log, $routeParams, $medics) {
-        $medics.get( function (medics) {
-            $scope.$apply(function () {
-                $scope.medics = medics;
-            });
-        });
+        $scope.medics = $medics.get();
         $scope.orderProp = 'name';
     }
 ]);
