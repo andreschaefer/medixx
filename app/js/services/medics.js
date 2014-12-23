@@ -46,11 +46,16 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
          * @returns {angular.$q.promise}
          */
         function requireAuth(immediateMode, userId) {
-            var token = gapi.auth.getToken();
+            var token = gapi.auth.getToken({immediate: true});
+            $log.debug(token);
             var now = Date.now() / 1000;
             if (token && ((token.expires_at - now) > (60))) {
-                return $q.when(token);
+                $log.debug("token");
+                return $q.when(token).then(function () {
+                    $log.debug("resolved");
+                });
             } else {
+                $log.debug("else");
                 var params = {
                     'client_id': config.clientId,
                     'scope': config.scopes,
@@ -60,6 +65,7 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
                 var deferred = $q.defer();
                 gapi.auth.authorize(params, function (result) {
                     if (result && !result.error) {
+                        localStorage.setItem('token', result)
                         deferred.resolve(result);
                     } else {
                         deferred.reject(result);
@@ -144,7 +150,7 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
                 'body': multipartRequestBody
             });
 
-            request.execute().then(
+            request.execute(
                 function (file) {
                     $log.debug('Success: Save medics remote', file);
                     isDirty(false);
@@ -227,9 +233,25 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
             saveRemote(medics, callback);
         }
 
+        function resetLocal() {
+            localStorage.clear()
+        }
+
+        function resetRemote(callback) {
+            saveRemote({"stocks": []}, callback);
+        }
+
+        function reset(callback) {
+            resetLocal();
+            resetRemote(callback);
+        }
+
         return {
             get: get,
             save: save,
-            requireAuth: requireAuth
+            requireAuth: requireAuth,
+            resetLocal: resetLocal,
+            resetRemote: resetRemote,
+            reset: reset
         };
     }]);
