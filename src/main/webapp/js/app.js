@@ -1,41 +1,98 @@
+/**
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 'use strict';
 
-/* App Module */
+function log() {
+    if (console && console.log) {
+        console.log(arguments);
+    }
+}
 
-var medixxApp = angular.module('medixxApp', [
-    'ngRoute',
-    'medixxAnimations',
-    'medixxDirectives',
-    'medixxControllers',
-    'medixxFilters',
-    'medixxServices'
-]);
+var CONFIG = {
+    clientId: '127208033176-radabdvn4rdphv46bm97eon9650ts7no.apps.googleusercontent.com',
+    clientKey: '7lVryjvGDqyeMWOds7402vrs',
+    scopes: [
+        'https://www.googleapis.com/auth/drive.appfolder'
+    ]
+};
 
-medixxApp.config(
-    ['$routeProvider', function ($routeProvider) {
-        $routeProvider
-            .when('/user/:userId/medics', {
-                templateUrl: 'partials/medic-list.html',
-                controller: 'MedicListCtrl'
-            })
-            .when('/user/:userId/settings', {
-                templateUrl: 'partials/settings.html',
-                controller: 'SettingsCtrl'
-            })
-            .when('/user/:userId/logout', {
-                templateUrl: 'partials/logout.html',
-                controller: 'LogoutCtrl'
-            })
-            .when('/user/:userId/medics/:medicId', {
-                templateUrl: 'partials/medic-detail.html',
-                controller: 'MedicDetailCtrl'
-            })
-            .when('/user/:userId/edit/:medicId', {
-                templateUrl: 'partials/medic-edit.html',
-                controller: 'MedicEditCtrl'
-            })
-            .otherwise({
-                redirectTo: '/user/aschaefer/medics'
-            });
-    }]
+var app = {};
+app.module = angular.module('Medixx', ['ngRoute']);
+
+/**
+ * Initialize our application routes
+ */
+app.module.config(['$routeProvider',
+        function ($routeProvider) {
+            $routeProvider
+                .when('/list', {
+                    templateUrl: 'views/list.html',
+                    controller: 'ListCtrl'
+                })
+                .when('/detail/:medicId', {
+                    templateUrl: 'views/detail.html',
+                    controller: 'DetailCtrl'
+                })
+                .when('/edit/:medicId', {
+                    templateUrl: 'views/edit.html',
+                    controller: 'EditCtrl'
+                })
+                .when('/install', {
+                    templateUrl: 'views/install.html',
+                    controller: 'InstallCtrl'
+                })
+                .when('/settings', {
+                    templateUrl: 'views/settings.html',
+                    controller: 'SettingsCtrl'
+                })
+                .otherwise({
+                    redirectTo: '/install'
+                });
+        }]
 );
+
+app.module.value('config', CONFIG);
+
+/**
+ * Set up handlers for various authorization issues that may arise if the access token
+ * is revoked or expired.
+ */
+app.module.run(['$rootScope', '$location', '$medics', function ($rootScope, $location, $medics) {
+    // Error loading the document, likely due revoked access. Redirect back to home/install page
+    $rootScope.$on('$routeChangeError', function () {
+        $location.url('/install?target=' + encodeURIComponent($location.url()));
+    });
+
+    // Token expired, refresh
+    $rootScope.$on('medixx.token_refresh_required', function () {
+        $medics.requireAuth(true).then(function () {
+            // no-op
+        }, function () {
+            $location.url('/install?target=' + encodeURIComponent($location.url()));
+        });
+    });
+
+}]);
+
+/**
+ * Bootstrap the app
+ */
+gapi.load('auth:client:drive-share:drive-realtime', function () {
+    gapi.auth.init();
+
+    $(document).ready(function () {
+        angular.bootstrap(document, ['Medixx']);
+    });
+});

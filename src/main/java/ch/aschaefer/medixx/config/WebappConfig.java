@@ -20,7 +20,10 @@ import org.springframework.context.annotation.Import;
         "ch.aschaefer.medixx.rest",
         "ch.aschaefer.medixx.service",
 })
-@Import({DataSourceConfig.class, SecurityConfig.class, JpaConfig.class})
+@Import({
+        DataSourceConfig.class,
+//        SecurityConfig.class,
+        JpaConfig.class})
 public class WebappConfig {
 
 

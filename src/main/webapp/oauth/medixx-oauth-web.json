@@ -1,0 +1,21 @@
+{
+  "web": {
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "client_secret": "7lVryjvGDqyeMWOds7402vrs",
+    "token_uri": "https://accounts.google.com/o/oauth2/token",
+    "client_email": "127208033176-radabdvn4rdphv46bm97eon9650ts7no@developer.gserviceaccount.com",
+    "redirect_uris": [
+      "http://medixx.aschaefer.ch/",
+      "http://medixx.local.aschaefer.ch/",
+      "http://medixx.local.namics.com/"
+    ],
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/127208033176-radabdvn4rdphv46bm97eon9650ts7no@developer.gserviceaccount.com",
+    "client_id": "127208033176-radabdvn4rdphv46bm97eon9650ts7no.apps.googleusercontent.com",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "javascript_origins": [
+      "http://medixx.aschaefer.ch",
+      "http://medixx.local.aschaefer.ch",
+      "http://medixx.local.namics.com"
+    ]
+  }
+}

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" ng-app="medixxApp">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=2.0, user-scalable=no">
@@ -9,26 +9,36 @@
     <link rel="stylesheet" href="css/animations.css">
     <link rel="stylesheet" href="flaticon/flaticon.css">
     <link rel="stylesheet" href="css/app.css">
+
+    <link rel="apple-touch-icon" href="flaticon/png/drugs5-1024.png">
 </head>
 <body>
-    <navigation></navigation>
+<navigation></navigation>
 
-    <main role="main">
-        <div class="view-container">
-            <div ng-view class="view-frame"></div>
-        </div>
-    </main>
 
-    <script src="js/libs/jquery.min.js"></script>
-    <script src="js/libs/angular.min.js"></script>
-    <script src="js/libs/angular-animate.min.js"></script>
-    <script src="js/libs/angular-route.min.js"></script>
+<main role="main">
+    <div class="view-container">
+        <div ng-view class="view-frame"></div>
+    </div>
+</main>
 
-    <script src="js/app.js"></script>
-    <script src="js/animations.js"></script>
-    <script src="js/controllers.js"></script>
-    <script src="js/directives.js"></script>
-    <script src="js/filters.js"></script>
-    <script src="js/services.js"></script>
+<script src="js/libs/gapi-client-plusone.js"></script>
+<script src="js/libs/gapi-api.js"></script>
+
+<!--<script src="https://apis.google.com/js/client.js?onload=handleClientLoad" ></script>-->
+
+<script src="js/libs/jquery.min.js"></script>
+<script src="js/libs/angular.js"></script>
+<script src="js/libs/angular-route.min.js"></script>
+
+<script src="js/app.js"></script>
+<script src="js/services/medics.js"></script>
+<script src="js/directives/navigation.js"></script>
+
+<script src="js/controllers/detail.js"></script>
+<script src="js/controllers/edit.js"></script>
+<script src="js/controllers/install.js"></script>
+<script src="js/controllers/list.js"></script>
+<script src="js/controllers/settings.js"></script>
 </body>
 </html>
