@@ -85,6 +85,7 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
                     } else {
                         deferred.reject(token);
                     }
+                    gapi.auth.setToken(token);
                     $rootScope.$digest();
                 });
                 promise = deferred.promise;
