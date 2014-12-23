@@ -49,16 +49,12 @@ app.module.config(['$routeProvider',
                     templateUrl: 'views/edit.html',
                     controller: 'EditCtrl'
                 })
-                .when('/install', {
-                    templateUrl: 'views/install.html',
-                    controller: 'InstallCtrl'
-                })
                 .when('/settings', {
                     templateUrl: 'views/settings.html',
                     controller: 'SettingsCtrl'
                 })
                 .otherwise({
-                    redirectTo: '/install'
+                    redirectTo: '/list'
                 });
         }]
 );
