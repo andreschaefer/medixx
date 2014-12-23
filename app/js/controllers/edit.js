@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('Medixx').controller('EditCtrl', ['$scope', '$routeParams', '$medics',
-    function ($scope, $routeParams, $medics) {
+angular.module('Medixx').controller('EditCtrl', ['$scope', '$routeParams', '$medics','$location',
+    function ($scope, $routeParams, $medics,$location) {
         $scope.medics = $medics.get();
         $scope.medicId = $routeParams.medicId;
         $scope.isNew = false;
@@ -31,6 +31,7 @@ angular.module('Medixx').controller('EditCtrl', ['$scope', '$routeParams', '$med
                 this.medics.stocks.push(this.medic);
             }
             $medics.save(this.medics);
+            $location.path("/list");
         }
     }]);
 

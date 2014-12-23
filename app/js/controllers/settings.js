@@ -7,8 +7,5 @@ angular.module('Medixx').controller('SettingsCtrl', ['$scope', '$routeParams', '
         $scope.resetLocal = function () {
             $medics.resetLocal();
         }
-        $scope.resetRemote = function () {
-            $medics.resetRemote();
-        }
     }]);
 

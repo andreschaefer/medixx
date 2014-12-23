@@ -221,7 +221,7 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
                             var metadata = resp.items[0];
                             load(metadata.downloadUrl, callback);
                         } else {
-                            saveRemote(medics, callback);
+                            saveRemote(callback);
                         }
                     });
             })
@@ -243,13 +243,10 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
             localStorage.clear()
         }
 
-        function resetRemote(callback) {
-            saveRemote({"stocks": []}, callback);
-        }
 
         function reset(callback) {
             resetLocal();
-            resetRemote(callback);
+            saveRemote(callback);
         }
 
         return {
@@ -257,7 +254,6 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
             save: save,
             requireAuth: requireAuth,
             resetLocal: resetLocal,
-            resetRemote: resetRemote,
             reset: reset
         };
     }]);
