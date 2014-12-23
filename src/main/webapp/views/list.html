@@ -11,7 +11,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="medic in user.stocks | filter:query | orderBy:orderProp">
+                <tr ng-repeat="medic in medics.stocks | filter:query | orderBy:orderProp">
                     <td>
                         <a href="#/user/{{userId}}/medics/{{medic.id}}">{{medic.name}}</a><br/>
                     </td>
@@ -21,7 +21,7 @@
                 </tr>
                 </tbody>
             </table>
-            <a href="#/user/{{userId}}/edit/new" class="btn btn-default" role="button">Neue Sorte</a>
+            <a href="#/edit/new" class="btn btn-default" role="button">Neue Sorte</a>
         </div>
     </div>
 </div>

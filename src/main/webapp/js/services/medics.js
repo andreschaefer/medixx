@@ -72,7 +72,7 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
 
         function saveLocal(medics) {
             $log.debug('Store local', key("medics"), medics);
-            localStorage.setItem(key("medics"), JSON.stringify(user));
+            localStorage.setItem(key("medics"), JSON.stringify(medics));
         }
 
         function isDirty(toggle) {
@@ -208,10 +208,10 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
             if (!isDirty()) {
                 load();
             } else {
-                var localUser = this.loadLocal();
+                var localUser = loadLocal();
                 if (localUser) {
                     $log.debug("Try to save dirty object", localUser);
-                    this.saveRemote(localUser, function () {
+                    saveRemote(localUser, function () {
                         load();
                     });
                 } else {

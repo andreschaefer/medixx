@@ -2,13 +2,11 @@
 angular.module('Medixx').controller('ListCtrl', ['$scope', '$log', '$routeParams', '$medics',
 
     function ($scope, $log, $routeParams, $medics) {
-        $medics.get($routeParams.userId, function (user) {
+        $medics.get( function (medics) {
             $scope.$apply(function () {
-                $scope.user = user;
+                $scope.medics = medics;
             });
         });
-
-        $scope.userId = $routeParams.userId;
         $scope.orderProp = 'name';
     }
 ]);

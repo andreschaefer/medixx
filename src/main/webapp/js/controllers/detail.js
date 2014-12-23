@@ -2,11 +2,12 @@
 
 angular.module('Medixx').controller('DetailCtrl', ['$scope', '$routeParams', '$medics',
     function ($scope, $routeParams, $medics) {
-        $medics.get($routeParams.userId, function (user) {
+
+        $medics.get($routeParams.userId, function (medics) {
             $scope.$apply(function () {
-                $scope.user = user;
+                $scope.medics = medics;
                 $scope.medic = null;
-                angular.forEach($scope.user.stocks, function (value) {
+                angular.forEach($scope.medics.stocks, function (value) {
                     if (value.id == $scope.medicId) {
                         $scope.medic = value;
                     }
@@ -14,10 +15,9 @@ angular.module('Medixx').controller('DetailCtrl', ['$scope', '$routeParams', '$m
             });
         });
 
-        $scope.userId = $routeParams.userId;
         $scope.medicId = $routeParams.medicId;
         $scope.add = function (amount) {
-            $scope.medic.stock += amount;
-            $medics.save($scope.user);
+            this.medic.stock += amount;
+            $medics.save(this.medics);
         }
     }]);

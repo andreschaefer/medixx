@@ -2,23 +2,23 @@
 
 angular.module('Medixx').controller('EditCtrl', ['$scope', '$routeParams', '$medics',
     function ($scope, $routeParams, $medics) {
-        $medics.get($routeParams.userId, function (user) {
+        $medics.get($routeParams.userId, function (medics) {
             $scope.userId = $routeParams.userId;
 
             $scope.$apply(function () {
-                $scope.user = user;
+                $scope.medics = medics;
                 $scope.medicId = $routeParams.medicId;
                 $scope.isNew = false;
 
                 $scope.medic = null;
-                angular.forEach($scope.user.stocks, function (value) {
+                angular.forEach($scope.medics.stocks, function (value) {
                     if (value.id == $scope.medicId) {
                         $scope.medic = value;
                     }
                 })
 
                 if (!$scope.medic) {
-                    $scope.medicId = $scope.userId + '-' + (Math.random() + 1).toString(36).substring(7)
+                    $scope.medicId = (Math.random() + 1).toString(36)
                     var stock = {
                         id: $scope.medicId,
                         name: "",
@@ -32,15 +32,11 @@ angular.module('Medixx').controller('EditCtrl', ['$scope', '$routeParams', '$med
             });
         });
 
-        $scope.userId = $routeParams.userId;
         $scope.save = function () {
-            if ($scope.isNew) {
-                $scope.user.stocks.push($scope.medic);
-                $medics.save($scope.user);
+            if (this.isNew) {
+                this.medics.stocks.push(this.medic);
             }
-            else {
-                $medics.save($scope.user);
-            }
+            $medics.save(this.medics);
         }
     }]);
 
