@@ -1,36 +1,15 @@
-application: medixx
-  version: 1
-  runtime: python27
-  api_version: 1
-  threadsafe: yes
+application: aschaefer-medixx
+version: 100
+runtime: python27
+api_version: 1
+threadsafe: yes
 
-  handlers:
+handlers:
 
-  - url: /(.+)
-    static_files: public/\1
-    upload: app/(.*)
+- url: /(.+)
+  static_files: app/\1
+  upload: app/(.*)
 
-  - url: /
-    static_files: app/index.html
-    upload: app/index.html
-
-  skip_files:
-  - ^(.*/)?app\.yaml
-  - ^(.*/)?app\.yml
-  - ^(.*/)?#.*#
-  - ^(.*/)?.*~
-  - ^(.*/)?.*\.py[co]
-  - ^(.*/)?.*/RCS/.*
-  - ^(.*/)?\..*
-  - ^(.*/)?tests$
-  - ^(.*/)?test$
-  - ^test/(.*/)?
-  - ^COPYING.LESSER
-  - ^README\..*
-  - \.gitignore
-  - ^\.git/.*
-  - \.*\.lint$
-  - ^fabfile\.py
-  - ^testrunner\.py
-  - ^grunt\.js
-  - ^node_modules/(.*/)?
+- url: /
+  static_files: app/index.html
+  upload: app/index.html

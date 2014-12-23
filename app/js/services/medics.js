@@ -3,6 +3,7 @@
 angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope',
     function ($log, config, $q, $rootScope) {
         var filename = "medixx.json";
+        var fileId = localStorage.getItem(key("file"));
 
         function calculate(medics) {
             function daysBetween(first, second) {
@@ -46,34 +47,47 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
          * @returns {angular.$q.promise}
          */
         function requireAuth(immediateMode, userId) {
-            var token = gapi.auth.getToken({immediate: true});
-            $log.debug(token);
+            var result = $q.defer();
+            var promise = null;
+
+            var token = gapi.auth.getToken();
             var now = Date.now() / 1000;
             if (token && ((token.expires_at - now) > (60))) {
-                $log.debug("token");
-                return $q.when(token).then(function () {
-                    $log.debug("resolved");
-                });
+                promise = $q.when(token)
             } else {
-                $log.debug("else");
+                var deferred = $q.defer();
                 var params = {
                     'client_id': config.clientId,
                     'scope': config.scopes,
                     'immediate': immediateMode,
                     'user_id': userId
                 };
-                var deferred = $q.defer();
-                gapi.auth.authorize(params, function (result) {
+                gapi.auth.authorize(params, function (token) {
                     if (result && !result.error) {
-                        localStorage.setItem('token', result)
-                        deferred.resolve(result);
+                        deferred.resolve(token);
                     } else {
-                        deferred.reject(result);
+                        deferred.reject(token);
                     }
                     $rootScope.$digest();
                 });
-                return deferred.promise;
+                promise = deferred.promise;
             }
+            promise.then(function (token) {
+                $log.info(token);
+                if (!gapi.client.drive) {
+                    gapi.client.load('drive', 'v2', function (token) {
+                        if (result && !result.error) {
+                            result.resolve(token);
+                        } else {
+                            result.reject(token);
+                        }
+                    })
+                }
+                else {
+                    result.resolve(token);
+                }
+            })
+            return result.promise;
         }
 
         function saveLocal(medics) {
@@ -108,9 +122,9 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
             $log.debug('Load local', key("medics"));
             var json = localStorage.getItem(key("medics"));
             if (json) {
-                var user = JSON.parse(json);
-                $log.debug('Loaded local', key("medics"), user);
-                return user;
+                var medics = JSON.parse(json);
+                $log.debug('Loaded local', key("medics"), medics);
+                return medics;
             }
         }
 
@@ -182,22 +196,17 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
                         }
                     });
             }
-
-            requireAuth().then(function () {
-                gapi.client.load('drive', 'v2', function () {
-                    var query = "'appfolder' in parents and title = '" + filename + "'";
-
-                    gapi.client.drive.files.list({'q': query})
-                        .execute(function (resp) {
-                            $log.debug(resp.items);
-                            if (resp.items.length == 0) {
-                                load(resp.items[0].downloadUrl, callback);
-                            } else {
-
-                            }
-                        });
-                })
-            });
+            requireAuth().then(function(){
+                gapi.client.drive.files.list({'q': query})
+                    .execute(function (resp) {
+                        $log.debug(resp.items);
+                        if (resp.items.length == 0) {
+                            load(resp.items[0].downloadUrl, callback);
+                        } else {
+                            callback(loadLocal());
+                        }
+                    });
+            })
         }
 
         function get(callback) {
