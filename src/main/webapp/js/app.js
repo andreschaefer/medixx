@@ -30,6 +30,14 @@ function loadDrive(callback) {
     }
 }
 
+var STATUS = {
+    offline: "offline",
+    online: "online",
+    uploading: "upload",
+    downloading: "download",
+    synced: "sync"
+}
+
 var CONFIG = {
     clientId: '127208033176-radabdvn4rdphv46bm97eon9650ts7no.apps.googleusercontent.com',
     apiKey: 'AIzaSyBbfqpyqkA6r0h57DpdhBxyAbOOQwiq4Ls',

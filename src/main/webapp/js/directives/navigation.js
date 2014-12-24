@@ -6,13 +6,13 @@ angular.module('Medixx').directive('navigation', function ($route, $location, $m
         replace: true,
         templateUrl: "js/directives/navigation.html",
         controller: function ($scope) {
-            $scope.online = function () {
-                return $medics.isOnline()
+            $scope.status = function (status) {
+                return $medics.status() == status;
             };
             $scope.activeRoute = function (route) {
                 return $location.path().indexOf(route) == 0;
             }
-            $scope.login = function () {
+            $scope.reload = function () {
                 $medics.requireAuth(false).then(function () {
                     $medics.reload();
                     $location.path("/list");

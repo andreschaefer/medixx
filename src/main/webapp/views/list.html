@@ -4,14 +4,16 @@
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th>Sorte</th>
-                    <th>Bestand</th>
-                    <th>Tage</th>
-                    <th>Reicht bis</th>
+                    <th ng-click="sort('name')">Sorte&nbsp;<span class="glyphicon glyphicon-sort hidden-print" ng-class="{option: !sorted('name')}"></span></th>
+                    <th ng-click="sort('stock')">Bestand&nbsp;<span class="glyphicon glyphicon-sort hidden-print" ng-class="{option: !sorted('stock')}"></span></th>
+                    <th ng-click="sort('remainingDays')">Tage&nbsp;<span class="glyphicon glyphicon-sort hidden-print" ng-class="{option: !sorted('remainingDays')}"></span></th>
+                    <th ng-click="sort('depleted')">Reicht bis&nbsp;<span class="glyphicon glyphicon-sort hidden-print" ng-class="{option: !sorted('depleted')}"></span></th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-class="{warning: (medic.remainingDays <= 14) && (medic.remainingDays > 0),danger: medic.remainingDays <= 0}" ng-repeat="medic in medics.stocks | filter:query | orderBy:orderProp" ng-click="go('/detail/' + medic.id)">
+                <tr ng-class="{warning: (medic.remainingDays <= 14) && (medic.remainingDays > 0),danger: medic.remainingDays <= 0}"
+                    ng-repeat="medic in medics.stocks | filter:query | orderBy:orderProp"
+                    ng-click="go('/detail/' + medic.id)">
                     <td>{{medic.name}}</td>
                     <td>{{medic.stock }}</td>
                     <td>{{medic.remainingDays }}</td>
@@ -19,7 +21,7 @@
                 </tr>
                 </tbody>
             </table>
-            <a href="#/edit/new" class="btn btn-default" role="button">Neue Sorte</a>
+            <a href="#/edit/new" class="btn btn-default hidden-print" role="button">Neue Sorte</a>
         </div>
     </div>
 </div>

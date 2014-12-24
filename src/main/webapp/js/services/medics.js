@@ -4,7 +4,8 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
     function ($log, config, $q, $rootScope, $timeout) {
         var filename = "medixx.json";
         var medics = {"stocks": []};
-        var online = false;
+        var lastRemote = null;
+        var status = STATUS.offline;
 
         function reload() {
             $log.debug("initialize with current local version");
@@ -13,7 +14,13 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
             $log.debug("local item", medics);
 
             if (isDirty()) {
-                // TODO raise alert / error
+                loadRemote(function (remotedata) {
+                    lastRemote = remotedata;
+                    if (lastRemote.date && medics && medics.date && medics.date > lastRemote.date) {
+                        saveRemote();
+                    }
+                    $rootScope.$digest();
+                })
             } else {
                 loadRemote(function (remotedata) {
                     medics.stocks = remotedata.stocks;
@@ -67,9 +74,10 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
                         var token = gapi.auth.getToken();
                         $log.debug("authenticated", token);
                         if (token) {
-                            online = true;
+                            status = STATUS.online;
                             result.resolve(token)
                         } else {
+                            status = STATUS.offline;
                             result.reject();
                         }
                     });
@@ -115,6 +123,7 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
 
         function saveLocal() {
             if (medics) {
+                medics.date = new Date();
                 $log.debug('Store local', key("medics"), medics);
                 localStorage.setItem(key("medics"), JSON.stringify(medics));
             }
@@ -160,6 +169,7 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
          * @param {Function} callback Function to call when the request is complete.
          */
         function saveRemote(callback) {
+            status = STATUS.uploading;
             var boundary = '-------314159265358979323846';
             var delimiter = "\r\n--" + boundary + "\r\n";
             var close_delim = "\r\n--" + boundary + "--";
@@ -193,12 +203,14 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
                 function (file) {
                     $log.debug('Success: Save medics remote', file);
                     isDirty(false);
+                    status = STATUS.synced;
                     if (callback) {
                         callback()
                     }
                 },
                 function (error) {
                     $log.debug('Fail: Save medics remote', error, medics);
+                    status = STATUS.online;
                     if (callback) {
                         callback()
                     }
@@ -209,6 +221,7 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
         function loadRemote(callback) {
             function load(url, callback) {
                 var token = gapi.auth.getToken();
+                status = STATUS.downloading;
                 $.ajax(
                     {
                         url: url,
@@ -216,16 +229,22 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
                         dataType: "json",
                         cache: false,
                         success: function (data) {
+                            status = STATUS.synced;
                             callback(data)
+                        },
+                        error: function () {
+                            status = STATUS.online;
                         }
                     });
             }
 
             requireAuth().then(function () {
+                status = STATUS.downloading;
                 driveClient().then(function () {
                     gapi.client.drive.files.list({'q': "'appfolder' in parents and title='" + filename + "'"})
                         .execute(function (resp) {
-                            if (resp.items.length > 0) {
+                            status = STATUS.online;
+                            if (resp && resp.items && resp.items.length > 0) {
                                 var metadata = resp.items[0];
                                 load(metadata.downloadUrl, callback);
                             } else {
@@ -247,9 +266,6 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
             }
         }
 
-        function get() {
-            return medics;
-        }
 
         function save(callback) {
             calculate();
@@ -269,17 +285,18 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
             saveRemote(callback);
         }
 
-        function isOnline() {
-            return online;
-        }
 
         return {
-            get: get,
+            get: function () {
+                return medics;
+            },
             save: save,
             requireAuth: requireAuth,
             resetLocal: resetLocal,
             reset: reset,
-            isOnline: isOnline,
+            status: function () {
+                return status
+            },
             reload: reload
         };
     }]);

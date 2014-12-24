@@ -41,3 +41,7 @@ body {
         line-height: inherit;
     }
 }
+
+.option {
+    color: lightgray !important;
+}
