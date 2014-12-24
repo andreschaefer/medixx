@@ -1,25 +1,31 @@
 <div class="container-fluid">
-    <div class="row" >
+    <div class="row">
         <div class="col-xs-12">
-            <h2>{{medic.name}}</h2>
+            <h2>{{medic.name}}
+                <button type="button" class="btn btn-default" ng-click="add(medic.package)">+ {{medic.package}}</button>
+            </h2>
             <table class="table">
                 <thead>
                 <tr>
                     <th>Bestand</th>
                     <th>Tage</th>
                     <th>Reicht bis</th>
+                    <th>Packungsgröße</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr >
+                <tr>
                     </td>
                     <td>{{medic.stock }}</td>
                     <td>{{medic.remainingDays }}</td>
                     <td>{{medic.depleted | date:'dd.MM.yyyy'}}</td>
+                    <td>{{medic.package}}</td>
                 </tr>
                 </tbody>
             </table>
-            <button type="button" class="btn btn-default" ng-click="add(20)">+ 20</button>
+
+            <a href="#/list" class="btn btn-default" role="button">Zurück</a>
+            <a href="#/edit/{{medic.id}}" class="btn btn-default" role="button">Bearbeiten</a>
         </div>
     </div>
 </div>

@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('Medixx').controller('EditCtrl', ['$scope', '$routeParams', '$medics','$location',
-    function ($scope, $routeParams, $medics,$location) {
+angular.module('Medixx').controller('EditCtrl', ['$scope', '$routeParams', '$medics', '$location',
+    function ($scope, $routeParams, $medics, $location) {
         $scope.medics = $medics.get();
         $scope.medicId = $routeParams.medicId;
         $scope.isNew = false;
@@ -20,6 +20,7 @@ angular.module('Medixx').controller('EditCtrl', ['$scope', '$routeParams', '$med
                 name: "",
                 stock: 0,
                 consumption: 1,
+                package: 20,
                 date: new Date()
             }
             $scope.medic = stock;
