@@ -29,9 +29,17 @@ angular.module('Medixx').controller('EditCtrl', ['$scope', '$routeParams', '$med
 
         $scope.save = function () {
             if (this.isNew) {
+                this.medic.id = this.medic.name.toLocaleLowerCase().replace(/\W/g, "-");
                 this.medics.stocks.push(this.medic);
             }
-            $medics.save(this.medics);
+            $medics.save();
+            $location.path("/list");
+        }
+        $scope.delete = function () {
+            if (!this.isNew) {
+                this.medics.stocks.splice(this.medics.stocks.indexOf(this.medic), 1);
+            }
+            $medics.save();
             $location.path("/list");
         }
     }]);

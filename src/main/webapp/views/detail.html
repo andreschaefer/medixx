@@ -5,20 +5,25 @@
                 <button type="button" class="btn btn-default" ng-click="add(medic.package)">+ {{medic.package}}</button>
             </h2>
             <table class="table">
-                <thead>
-                <tr>
-                    <th>Bestand</th>
-                    <th>Tage</th>
-                    <th>Reicht bis</th>
-                    <th>Packungsgröße</th>
-                </tr>
-                </thead>
                 <tbody>
                 <tr>
-                    </td>
+                    <th>Bestand</th>
                     <td>{{medic.stock }}</td>
+                </tr>
+                <tr>
+                    <th>Tage</th>
+                    <td>{{medic.consumption }}</td>
+                </tr>
+                <tr>
+                    <th>Verbrauch</th>
                     <td>{{medic.remainingDays }}</td>
+                </tr>
+                <tr>
+                    <th>Reicht bis</th>
                     <td>{{medic.depleted | date:'dd.MM.yyyy'}}</td>
+                </tr>
+                <tr>
+                    <th>Packungsgröße</th>
                     <td>{{medic.package}}</td>
                 </tr>
                 </tbody>
