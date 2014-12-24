@@ -20,7 +20,7 @@ angular.module('Medixx').controller('EditCtrl', ['$scope', '$routeParams', '$med
                 name: "",
                 stock: 0,
                 consumption: 1,
-                package: 20,
+                package: 100,
                 date: new Date()
             }
             $scope.medic = stock;
@@ -36,9 +36,11 @@ angular.module('Medixx').controller('EditCtrl', ['$scope', '$routeParams', '$med
             $location.path("/list");
         }
         $scope.delete = function () {
-            if (!this.isNew) {
-                this.medics.stocks.splice(this.medics.stocks.indexOf(this.medic), 1);
-            }
+            console.log("before delete",$scope.medics);
+            $scope.medics.stocks = $.grep($scope.medics.stocks, function (item) {
+                return item.id != $scope.medicId;
+            });
+            console.log("after delete",$scope.medics);
             $medics.save();
             $location.path("/list");
         }

@@ -20,7 +20,7 @@
                     <input type="number" class="form-control" id="package" ng-model="medic.package">
                 </div>
                 <button type="button" class="btn btn-success" ng-click="save()">Speichern</button>
-                <button type="button" class="btn btn-danger" ng-click="delete()">Löschen</button>
+                <button type="button" class="btn btn-danger" ng-click="delete()" ng-show="!isNew">Löschen</button>
             </form>
         </div>
     </div>

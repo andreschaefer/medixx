@@ -216,6 +216,7 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
                     $log.debug('Success: Save medics remote', file);
                     isDirty(false);
                     status = STATUS.synced;
+                    $rootScope.$digest();
                     if (callback) {
                         callback()
                     }
@@ -223,6 +224,7 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
                 function (error) {
                     $log.debug('Fail: Save medics remote', error, medics);
                     status = STATUS.online;
+                    $rootScope.$digest();
                     if (callback) {
                         callback()
                     }
