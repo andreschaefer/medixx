@@ -14,5 +14,17 @@
                 </a>
             </li>
         </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a href="#" title="Login" ng-show="!online()" ng-click="login()">
+                    <span class="nav-icon glyphicon glyphicon-log-in"></span>
+                    <span class="desk-only">&nbsp;Login</span>
+                </a>
+                <a href="#" title="Online" ng-show="online()">
+                    <span class="nav-icon glyphicon glyphicon-ok"></span>
+                    <span class="desk-only">&nbsp;Online</span>
+                </a>
+            </li>
+        </ul>
     </div>
 </nav>

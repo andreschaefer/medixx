@@ -4,6 +4,7 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
     function ($log, config, $q, $rootScope, $timeout) {
         var filename = "medixx.json";
         var medics = {"stocks": []};
+        var online = false;
 
         $log.debug("initialize with current local version");
         medics = loadLocal() || medics;
@@ -56,12 +57,18 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
                     var params = {
                         'client_id': CONFIG.clientId,
                         'scope': CONFIG.scopes,
-                        'immediate': true,
+                        'immediate': immediateMode == false ? false : true,
                         'user_id': userId
                     };
-                    gapi.auth.authorize(params,function (auth) {
-                        $log.info(auth);
-                        result.resolve(gapi.auth.getToken())
+                    gapi.auth.authorize(params, function (auth) {
+                        var token = gapi.auth.getToken();
+                        $log.debug("authenticated", token);
+                        if (token) {
+                            online = true;
+                            result.resolve(token)
+                        } else {
+                            result.reject();
+                        }
                     });
                 }
             }
@@ -215,7 +222,6 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
                 driveClient().then(function () {
                     gapi.client.drive.files.list({'q': "'appfolder' in parents and title='" + filename + "'"})
                         .execute(function (resp) {
-                            $log.debug(resp.items);
                             if (resp.items.length > 0) {
                                 var metadata = resp.items[0];
                                 load(metadata.downloadUrl, callback);
@@ -260,11 +266,16 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
             saveRemote(callback);
         }
 
+        function isOnline() {
+            return online;
+        }
+
         return {
             get: get,
             save: save,
             requireAuth: requireAuth,
             resetLocal: resetLocal,
-            reset: reset
+            reset: reset,
+            isOnline: isOnline
         };
     }]);

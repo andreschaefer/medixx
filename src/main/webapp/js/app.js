@@ -40,7 +40,6 @@ var CONFIG = {
 
 var app = {};
 app.module = angular.module('Medixx', ['ngRoute']);
-app.online = false;
 
 /**
  * Initialize our application routes
