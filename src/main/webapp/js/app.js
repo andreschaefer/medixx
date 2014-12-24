@@ -20,9 +20,19 @@ function log() {
     }
 }
 
+
+function loadDrive(callback) {
+    if (!gapi.client.drive) {
+        gapi.client.load('drive', 'v2', callback);
+    }
+    else if (callback) {
+        callback();
+    }
+}
+
 var CONFIG = {
     clientId: '127208033176-radabdvn4rdphv46bm97eon9650ts7no.apps.googleusercontent.com',
-    clientKey: '7lVryjvGDqyeMWOds7402vrs',
+    apiKey: 'AIzaSyBbfqpyqkA6r0h57DpdhBxyAbOOQwiq4Ls',
     scopes: [
         'https://www.googleapis.com/auth/drive.appfolder'
     ]
@@ -30,6 +40,7 @@ var CONFIG = {
 
 var app = {};
 app.module = angular.module('Medixx', ['ngRoute']);
+app.online = false;
 
 /**
  * Initialize our application routes
@@ -82,13 +93,9 @@ app.module.run(['$rootScope', '$location', '$medics', function ($rootScope, $loc
 
 }]);
 
-/**
- * Bootstrap the app
- */
-gapi.load('auth:client:drive-share:drive-realtime', function () {
-    gapi.auth.init();
-
+// called by google client script callback
+function init() {
     $(document).ready(function () {
         angular.bootstrap(document, ['Medixx']);
     });
-});
+}
