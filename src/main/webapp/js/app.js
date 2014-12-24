@@ -100,9 +100,25 @@ app.module.run(['$rootScope', '$location', '$medics', function ($rootScope, $loc
 
 }]);
 
-// called by google client script callback
 function init() {
     $(document).ready(function () {
         angular.bootstrap(document, ['Medixx']);
     });
 }
+
+// called by google client script callback
+$(document).ready(function () {
+    $.ajaxSetup({
+        cache: true
+    });
+    $.getScript("https://apis.google.com/js/client.js?onload=init", function () {
+        console.log("Loaded gapi script")
+    })
+        .fail(function (script, textStatus) {
+            log("Failed to load gapi")
+            init();
+        });
+    $.ajaxSetup({
+        cache: false
+    });
+});

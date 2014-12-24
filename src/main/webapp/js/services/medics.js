@@ -44,7 +44,10 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
             var result = $q.defer();
             var promise = result.promise;
 
-            if (!gapi.auth) {
+            if (!gapi || !gapi.load) {
+                result.reject();
+            }
+            else if (!gapi.auth) {
                 $log.debug("gapi.load('auth:client'");
                 gapi.load('auth:client').then(function () {
                     gapi.client.setApiKey(config.apiKey);
