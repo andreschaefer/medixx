@@ -10,16 +10,18 @@ body {
     float: left;
     margin: 0;
 }
+
 .navbar-nav > li {
     float: left;
 }
+
 .navbar-nav > li > a {
     padding-top: 15px;
-    padding-bottom: 15px ;
+    padding-bottom: 15px;
 }
 
 .navbar-nav > li, .navbar-nav {
-    float: left ;
+    float: left;
 }
 
 .navbar-nav.navbar-right:last-child {
@@ -44,4 +46,8 @@ body {
 
 .option {
     color: lightgray !important;
+}
+
+a {
+    cursor: pointer;
 }

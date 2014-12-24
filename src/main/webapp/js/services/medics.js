@@ -87,6 +87,18 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
             return promise;
         }
 
+        function driveClient() {
+            if (gapi.client.drive) {
+                var deferred = $q.defer();
+                deferred.resolve(gapi.client.drive);
+                return deferred.promise;
+            }
+            else {
+                return requireAuth().then(function () {
+                    return gapi.client.load('drive', 'v2');
+                })
+            }
+        }
 
         function calculate() {
             function daysBetween(first, second) {
@@ -255,17 +267,6 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
             })
         }
 
-        function driveClient() {
-            if (gapi.client.drive) {
-                $q.defer().resolve(gapi.client.drive);
-            }
-            else {
-                return requireAuth().then(function () {
-                    return gapi.client.load('drive', 'v2');
-                })
-            }
-        }
-
 
         function save(callback) {
             calculate();
@@ -291,12 +292,12 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
                 return medics;
             },
             save: save,
-            requireAuth: requireAuth,
             resetLocal: resetLocal,
             reset: reset,
             status: function () {
                 return status
             },
-            reload: reload
+            reload: reload,
+            auth: requireAuth
         };
     }]);

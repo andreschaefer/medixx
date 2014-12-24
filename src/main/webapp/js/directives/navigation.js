@@ -13,7 +13,7 @@ angular.module('Medixx').directive('navigation', function ($route, $location, $m
                 return $location.path().indexOf(route) == 0;
             }
             $scope.reload = function () {
-                $medics.requireAuth(false).then(function () {
+                $medics.auth(false).then(function () {
                     $medics.reload();
                     $location.path("/list");
                 });
