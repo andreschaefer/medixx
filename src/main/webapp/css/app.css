@@ -48,6 +48,10 @@ body {
     color: lightgray !important;
 }
 
+.option:hover {
+    color: dimgrey !important;
+}
+
 a {
     cursor: pointer;
 }
