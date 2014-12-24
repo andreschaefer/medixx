@@ -6,22 +6,25 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
         var medics = {"stocks": []};
         var online = false;
 
-        $log.debug("initialize with current local version");
-        medics = loadLocal() || medics;
-        calculate();
-        $log.debug("local item", medics);
+        function reload() {
+            $log.debug("initialize with current local version");
+            medics = loadLocal() || medics;
+            calculate();
+            $log.debug("local item", medics);
 
-        if (isDirty()) {
-            // TODO raise alert / error
-        } else {
-            loadRemote(function (remotedata) {
-                medics.stocks = remotedata.stocks;
-                calculate();
-                saveLocal();
-                $rootScope.$digest();
-            })
+            if (isDirty()) {
+                // TODO raise alert / error
+            } else {
+                loadRemote(function (remotedata) {
+                    medics.stocks = remotedata.stocks;
+                    calculate();
+                    saveLocal();
+                    $rootScope.$digest();
+                })
+            }
         }
 
+        reload();
 
         /**
          * Checks to make sure the user is currently authorized and the access
@@ -276,6 +279,7 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
             requireAuth: requireAuth,
             resetLocal: resetLocal,
             reset: reset,
-            isOnline: isOnline
+            isOnline: isOnline,
+            reload: reload
         };
     }]);

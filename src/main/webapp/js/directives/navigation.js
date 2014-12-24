@@ -14,6 +14,7 @@ angular.module('Medixx').directive('navigation', function ($route, $location, $m
             }
             $scope.login = function () {
                 $medics.requireAuth(false).then(function () {
+                    $medics.reload();
                     $location.path("/list");
                 });
             }
