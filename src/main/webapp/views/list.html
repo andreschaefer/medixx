@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-xs-12">
-            <table class="table">
+            <table class="table table-hover">
                 <thead>
                 <tr>
                     <th>Sorte</th>
@@ -11,10 +11,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="medic in medics.stocks | filter:query | orderBy:orderProp">
-                    <td>
-                        <a href="#/detail/{{medic.id}}">{{medic.name}}</a><br/>
-                    </td>
+                <tr ng-class="{warning: (medic.remainingDays <= 14) && (medic.remainingDays > 0),danger: medic.remainingDays <= 0}" ng-repeat="medic in medics.stocks | filter:query | orderBy:orderProp" ng-click="go('/detail/' + medic.id)">
+                    <td>{{medic.name}}</td>
                     <td>{{medic.stock }}</td>
                     <td>{{medic.remainingDays }}</td>
                     <td>{{medic.depleted | date:'dd.MM.yyyy'}}</td>
