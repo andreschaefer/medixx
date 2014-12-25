@@ -36,11 +36,11 @@ angular.module('Medixx').controller('EditCtrl', ['$scope', '$routeParams', '$med
             $location.path("/list");
         }
         $scope.delete = function () {
-            console.log("before delete",$scope.medics);
+            log("before delete",$scope.medics);
             $scope.medics.stocks = $.grep($scope.medics.stocks, function (item) {
                 return item.id != $scope.medicId;
             });
-            console.log("after delete",$scope.medics);
+            log("after delete",$scope.medics);
             $medics.save();
             $location.path("/list");
         }
