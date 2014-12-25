@@ -8,4 +8,7 @@
         <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
     </system-properties>
 
+    <static-files>
+        <exclude path="/cache.manifest"  />
+    </static-files>
 </appengine-web-app>
