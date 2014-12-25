@@ -1,41 +1,8 @@
-/**
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 'use strict';
-
 function log() {
     if (console && console.log) {
-        console.log(arguments);
+        console.log.apply(console.log, arguments);
     }
-}
-
-
-function loadDrive(callback) {
-    if (!gapi.client.drive) {
-        gapi.client.load('drive', 'v2', callback);
-    }
-    else if (callback) {
-        callback();
-    }
-}
-
-var STATUS = {
-    offline: "offline",
-    online: "online",
-    uploading: "upload",
-    downloading: "download",
-    synced: "sync"
 }
 
 var CONFIG = {
@@ -46,8 +13,16 @@ var CONFIG = {
     ]
 };
 
+var STATUS = {
+    offline: "offline",
+    online: "online",
+    uploading: "upload",
+    downloading: "download",
+    synced: "sync"
+}
+
 var app = {};
-app.module = angular.module('Medixx', ['ngRoute','ngTouch']);
+app.module = angular.module('Medixx', ['ngRoute', 'ngTouch']);
 
 /**
  * Initialize our application routes
@@ -79,29 +54,9 @@ app.module.config(['$routeProvider',
 
 app.module.value('config', CONFIG);
 
-/**
- * Set up handlers for various authorization issues that may arise if the access token
- * is revoked or expired.
- */
-app.module.run(['$rootScope', '$location', '$medics', function ($rootScope, $location, $medics) {
-    // Error loading the document, likely due revoked access. Redirect back to home/install page
-    $rootScope.$on('$routeChangeError', function () {
-        $location.url('/install?target=' + encodeURIComponent($location.url()));
-    });
-
-    // Token expired, refresh
-    $rootScope.$on('medixx.token_refresh_required', function () {
-        $medics.requireAuth(true).then(function () {
-            // no-op
-        }, function () {
-            $location.url('/install?target=' + encodeURIComponent($location.url()));
-        });
-    });
-
-}]);
-
 function init() {
     $(document).ready(function () {
+        log('medixx-version', $('meta[name="medixx-version"]').attr('content'));
         angular.bootstrap(document, ['Medixx']);
     });
 }

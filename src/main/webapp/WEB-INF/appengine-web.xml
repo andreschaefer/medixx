@@ -9,6 +9,8 @@
     </system-properties>
 
     <static-files>
-        <exclude path="/cache.manifest"  />
+        <include path="/cache.manifest" expiration="0s" />
+        <include path="/**" expiration="30d"/>
     </static-files>
+
 </appengine-web-app>
