@@ -47,7 +47,7 @@ var CONFIG = {
 };
 
 var app = {};
-app.module = angular.module('Medixx', ['ngRoute']);
+app.module = angular.module('Medixx', ['ngRoute','ngTouch']);
 
 /**
  * Initialize our application routes

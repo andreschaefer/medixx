@@ -14,6 +14,7 @@ css/app.css
 js/libs/jquery.min.js
 js/libs/angular.min.js
 js/libs/angular-route.min.js
+js/libs/angular-touch.min.js
 js/app.js
 js/services/medics.js
 js/directives/navigation.js
