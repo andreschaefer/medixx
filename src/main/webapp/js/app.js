@@ -15,7 +15,7 @@
 'use strict';
 function log() {
     if (console && console.log) {
-        console.log.apply(console.log, arguments);
+        console.log(arguments);
     }
 }
 
@@ -70,7 +70,8 @@ app.module.value('config', CONFIG);
 
 function init() {
     $(document).ready(function () {
-        log('medixx-version', $('meta[name="medixx-version"]').attr('content'));
+        var version = $('meta[name="medixx-version"]').attr('content');
+        log('medixx-version', version);
         angular.bootstrap(document, ['Medixx']);
     });
 }
