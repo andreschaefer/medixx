@@ -27,6 +27,27 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
 
         reload();
 
+        function requireOnline() {
+            $log.debug("Check online status");
+            var deferred = $q.defer();
+            Offline.on("confirmed-up", function () {
+                if (gapiReady) {
+                    deferred.resolve();
+                }
+                else {
+                    app.gapiCallback = function () {
+                        deferred.resolve();
+                    }
+                    loadGapi();
+                }
+            });
+            Offline.on("confirmed-down", function () {
+                deferred.reject();
+            });
+            Offline.check();
+            return deferred.promise;
+        }
+
         /**
          * Checks to make sure the user is currently authorized and the access
          * token hasn't expired.
@@ -37,20 +58,22 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
         function requireAuth(immediateMode, userId) {
             var result = $q.defer();
             var promise = result.promise;
-
-            if (!gapi || !gapi.load) {
-                result.reject();
-            }
-            else if (!gapi.auth) {
-                $log.debug("gapi.load('auth:client'");
-                gapi.load('auth:client').then(function () {
-                    gapi.client.setApiKey(config.apiKey);
-                    authorize();
+            requireOnline()
+                .then(function () {
+                    if (!gapi.auth) {
+                        $log.debug("gapi.load('auth:client'");
+                        gapi.load('auth:client').then(function () {
+                            gapi.client.setApiKey(config.apiKey);
+                            authorize();
+                        });
+                    }
+                    else {
+                        authorize()
+                    }
+                })
+                .catch(function () {
+                    result.reject()
                 });
-            }
-            else {
-                authorize()
-            }
 
             function authorize() {
                 var token = gapi.auth.getToken();
@@ -313,13 +336,17 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
         }
 
         function resetLocal() {
+            addToHistory(medics);
             medics = {"stocks": []};
-            localStorage.clear()
+            isDirty(false);
+            reload();
         }
 
 
         function reset(callback) {
-            resetLocal();
+            addToHistory(medics);
+            medics = {"stocks": []};
+            isDirty(false);
             saveRemote(callback);
         }
 
@@ -349,4 +376,5 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
             history: getHistory,
             replace: setActiveMedics
         };
-    }]);
+    }])
+;

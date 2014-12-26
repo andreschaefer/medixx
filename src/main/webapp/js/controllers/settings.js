@@ -27,7 +27,9 @@ angular.module('Medixx').controller('SettingsCtrl', ['$scope', '$routeParams', '
 
             $log.debug("Cache status expect", window.applicationCache.UPDATEREADY, "actual", window.applicationCache.status);
             $log.debug("Cache request update");
-            window.applicationCache.update();
+            if (window.applicationCache.UPDATEREADY == window.applicationCache.status){
+                window.applicationCache.update();
+            }
             $log.debug("Cache status", window.applicationCache.status);
 
             window.location.reload(true);

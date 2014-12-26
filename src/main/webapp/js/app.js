@@ -72,46 +72,39 @@ app.module.config(['$routeProvider',
 
 app.module.value('config', CONFIG);
 
-function init() {
-    $(document).ready(function () {
-        var version = $('meta[name="medixx-version"]').attr('content');
-        log('medixx-version', version);
-        angular.bootstrap(document, ['Medixx']);
-    });
-}
-
 Offline.options = {
     checkOnLoad: false,
     interceptRequests: false,
-    reconnect: {
-        initialDelay: 3
-    },
+    reconnect: false,
     requests: false,
     checks: {xhr: {url: 'cache.manifest'}},
     game: false
 }
 
+var gapiReady = false;
+function confirmGapi() {
+    log("Loaded gapi script: typeof gapi", typeof gapi);
+    log("Loaded gapi script: typeof gapi.load", typeof gapi.load);
+    gapiReady = true;
+    app.gapiCallback();
+}
+
+app.gapiCallback = function () {
+};
+
+function loadGapi() {
+    $.ajaxSetup({
+        cache: true
+    });
+    $.getScript("js/libs/gapi-client.js?onload=confirmGapi");
+    $.ajaxSetup({
+        cache: false
+    });
+}
+loadGapi();
 
 $(document).ready(function () {
-    Offline.on("confirmed-up", function () {
-        log("Online");
-        $.ajaxSetup({
-            cache: true
-        });
-        $.getScript("https://apis.google.com/js/client.js?onload=init", function () {
-            log("Loaded gapi script")
-        })
-            .fail(function (script, textStatus) {
-                log("Failed to load gapi")
-                init();
-            });
-        $.ajaxSetup({
-            cache: false
-        });
-    });
-    Offline.on("confirmed-down", function () {
-        log("Offline");
-        init()
-    });
-    Offline.check();
+    var version = $('meta[name="medixx-version"]').attr('content');
+    log('medixx-version', version);
+    angular.bootstrap(document, ['Medixx']);
 });
