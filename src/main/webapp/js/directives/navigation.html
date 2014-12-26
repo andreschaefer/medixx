@@ -1,7 +1,7 @@
 <nav class="navbar navbar-default navbar-fixed-top navbar-inverse hidden-print">
     <div class="container-fluid">
         <ul class="nav navbar-nav">
-            <li ng-class="{active: !activeRoute('/settings')}">
+            <li ng-class="{active: !activeRoute('/settings') && !activeRoute('/history')}">
                 <a href="#/list" title="Bestand">
                     <span class="nav-icon flaticon-drugs5"></span>
                     <span class="desk-only">&nbsp;Bestand</span>
@@ -11,6 +11,12 @@
                 <a href="#/settings" title="Einstellungen">
                     <span class="nav-icon glyphicon glyphicon-cog"></span>
                     <span class="desk-only">&nbsp;Einstellungen</span>
+                </a>
+            </li>
+            <li ng-class="{active: activeRoute('/history')}">
+                <a href="#/history" title="Lokale Historie">
+                    <span class="nav-icon glyphicon glyphicon-time"></span>
+                    <span class="desk-only">&nbsp;Historie</span>
                 </a>
             </li>
         </ul>

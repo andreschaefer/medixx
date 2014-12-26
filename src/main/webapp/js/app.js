@@ -60,6 +60,10 @@ app.module.config(['$routeProvider',
                     templateUrl: 'views/settings.html',
                     controller: 'SettingsCtrl'
                 })
+                .when('/history', {
+                    templateUrl: 'views/history.html',
+                    controller: 'HistoryCtrl'
+                })
                 .otherwise({
                     redirectTo: '/list'
                 });
@@ -76,19 +80,38 @@ function init() {
     });
 }
 
-// called by google client script callback
+Offline.options = {
+    checkOnLoad: false,
+    interceptRequests: false,
+    reconnect: {
+        initialDelay: 3
+    },
+    requests: false,
+    checks: {xhr: {url: 'cache.manifest'}},
+    game: false
+}
+
+
 $(document).ready(function () {
-    $.ajaxSetup({
-        cache: true
-    });
-    $.getScript("https://apis.google.com/js/client.js?onload=init", function () {
-        log("Loaded gapi script")
-    })
-        .fail(function (script, textStatus) {
-            log("Failed to load gapi")
-            init();
+    Offline.on("confirmed-up", function () {
+        log("Online");
+        $.ajaxSetup({
+            cache: true
         });
-    $.ajaxSetup({
-        cache: false
+        $.getScript("https://apis.google.com/js/client.js?onload=init", function () {
+            log("Loaded gapi script")
+        })
+            .fail(function (script, textStatus) {
+                log("Failed to load gapi")
+                init();
+            });
+        $.ajaxSetup({
+            cache: false
+        });
     });
+    Offline.on("confirmed-down", function () {
+        log("Offline");
+        init()
+    });
+    Offline.check();
 });

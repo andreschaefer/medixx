@@ -4,31 +4,25 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
     function ($log, config, $q, $rootScope, $timeout) {
         var filename = "medixx.json";
         var medics = {"stocks": []};
-        var lastRemote = null;
         var status = STATUS.offline;
+        var history = [];
 
         function reload() {
             $log.debug("initialize with current local version");
             medics = loadLocal() || medics;
+            history = loadHistory();
             calculate();
             $log.debug("local item", medics);
 
             if (isDirty()) {
-                loadRemote(function (remotedata) {
-                    lastRemote = remotedata;
-                    if (lastRemote.date && medics && medics.date && medics.date > lastRemote.date) {
-                        saveRemote();
-                    }
-                    $rootScope.$digest();
-                })
-            } else {
-                loadRemote(function (remotedata) {
-                    medics.stocks = remotedata.stocks;
-                    calculate();
-                    saveLocal();
-                    $rootScope.$digest();
-                })
+                addToHistory(medics);
             }
+            loadRemote(function (remotedata) {
+                medics.stocks = remotedata.stocks;
+                calculate();
+                saveLocal();
+                $rootScope.$digest();
+            });
         }
 
         reload();
@@ -136,6 +130,42 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
             }
         }
 
+        function addToHistory(item) {
+            if (history.length > 10) {
+                var removed = history.splice(0, 1);
+                $log.debug("History exceeds 10 items, removed oldest", removed);
+            }
+            var entry = {}
+            entry.date = item.date;
+            entry.id = entry.date;
+            entry.medics = item;
+
+            $log.debug("Add item to history", entry.date);
+            if (!_.find(history, function (test) {
+                    return test.id == entry.id;
+                })
+            ) {
+                history.push(entry);
+                localStorage.setItem(key("history"), JSON.stringify(history));
+            }
+        }
+
+        function loadHistory() {
+            var local = localStorage.getItem(key("history"));
+            $log.debug("History in local storage")
+            if (local && local != "undefined") {
+                try {
+                    var parse = JSON.parse(local);
+                    return parse;
+                } catch (e) {
+                    $log.warn("Could not load local history, replace entry with valid empty one", e);
+                    localStorage.setItem(key("history"), JSON.stringify([]));
+                }
+            }
+            $log.debug("History could not be loaded, use empty array")
+            return [];
+        }
+
         function saveLocal() {
             if (medics) {
                 medics.date = new Date();
@@ -185,6 +215,8 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
          */
         function saveRemote(callback) {
             status = STATUS.uploading;
+            addToHistory(medics);
+
             var boundary = '-------314159265358979323846';
             var delimiter = "\r\n--" + boundary + "\r\n";
             var close_delim = "\r\n--" + boundary + "--";
@@ -291,6 +323,16 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
             saveRemote(callback);
         }
 
+        function getHistory() {
+            return history;
+        }
+
+        function setActiveMedics(activeMedics) {
+            addToHistory(medics);
+            medics = activeMedics;
+            calculate();
+            save();
+        }
 
         return {
             get: function () {
@@ -303,6 +345,8 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
                 return status
             },
             reload: reload,
-            auth: requireAuth
+            auth: requireAuth,
+            history: getHistory,
+            replace: setActiveMedics
         };
     }]);
