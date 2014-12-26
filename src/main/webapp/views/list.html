@@ -12,7 +12,7 @@
                 </thead>
                 <tbody>
                 <tr ng-class="{warning: (medic.remainingDays <= 14) && (medic.remainingDays > 0),danger: medic.remainingDays <= 0}"
-                    ng-repeat="medic in medics.stocks | filter:query | orderBy:orderProp"
+                    ng-repeat="medic in medics.stocks | orderBy:orderProp  track by medic.id"
                     ng-click="go('/detail/' + medic.id)">
                     <td>{{medic.name}}</td>
                     <td>{{medic.stock }}</td>
