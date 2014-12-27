@@ -16,6 +16,13 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
 
             if (isDirty()) {
                 addToHistory(medics);
+                loadRemote(function (remotedata) {
+                    var lastRemote = remotedata;
+                    if (lastRemote.date && medics && medics.date && medics.date > lastRemote.date) {
+                        saveRemote();
+                    }
+                    $rootScope.$digest();
+                })
             }
             loadRemote(function (remotedata) {
                 medics.stocks = remotedata.stocks;
@@ -23,6 +30,8 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
                 saveLocal();
                 $rootScope.$digest();
             });
+
+
         }
 
         reload();
