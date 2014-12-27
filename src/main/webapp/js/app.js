@@ -96,7 +96,7 @@ function loadGapi() {
     $.ajaxSetup({
         cache: true
     });
-    $.getScript("js/libs/gapi-client.js?onload=confirmGapi");
+    $.getScript("js/libs/gapi-client.js");
     $.ajaxSetup({
         cache: false
     });

@@ -16,7 +16,7 @@ js/libs/gapi-api.js
 js/libs/gapi-client.js
 js/libs/underscore-min.js
 js/libs/jquery.min.js
-js/libs/angular.min.js
+js/libs/angular.js
 js/libs/angular-route.min.js
 js/libs/angular-touch.min.js
 js/app.js
