@@ -10,14 +10,6 @@ angular.module('Medixx').controller('SettingsCtrl', ['$scope', '$routeParams', '
             $medics.resetLocal();
         }
         $scope.cacheReload = function () {
-            $log.debug("Cache status", window.applicationCache);
-            window.applicationCache.addEventListener('updateready', function () {
-                $log.debug("Cache update ready received", window.applicationCache);
-                window.location.reload(true);
-            });
-
-            $log.debug("Cache request update");
-            window.applicationCache.update();
             window.location.reload(true);
         }
     }]);
