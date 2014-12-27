@@ -85,6 +85,9 @@
                 <groupId>external.atlassian.jgitflow</groupId>
                 <artifactId>jgitflow-maven-plugin</artifactId>
                 <version>1.0-m4.3</version>
+                <configuration>
+                    <pushReleases>true</pushReleases>
+                </configuration>
             </plugin>
         </plugins>
     </build>
