@@ -1,6 +1,18 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-xs-12">
+            <div class="app-icon app-icon-medixx pull-left mr-20"></div>
+            <div class="">
+                <strong>Medixx</strong><br/>
+                <span>Version:</span>&nbsp;<span>{{version}}</span> <br>
+                <span>Build:</span>&nbsp;<span>{{build | date:'dd.MM.yyyy HH:mm:ss'}}</span><br>
+                <small>Copyright &copy; {{build | date:'yyyy' }} André Schäfer</small>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-xs-12">
             <h3>Lokale Daten zurücksetzen</h3>
 
             <p>Die Applikation speichert Daten zum offline Zugriff lokal, hier können diese gelöscht werden.</p>
@@ -21,6 +33,7 @@
     <div class="row">
         <div class="col-xs-12">
             <h3>Applikation neu laden</h3>
+
             <p>Zur Verbesserung der Offline-Fähigkeit der App wird diese in einem Cache gehalten. Hier kann ein Update
                 explizit ausgelöst werden.</p>
 

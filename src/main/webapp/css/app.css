@@ -55,3 +55,26 @@ body {
 a {
     cursor: pointer;
 }
+
+.text-small {
+    font-size: small;
+}
+
+.app-icon {
+    width: 80px;
+    height: 80px;
+    background-size: 80px 80px;
+    display: block;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+
+}
+
+.app-icon-medixx {
+    background-image: url('../icon/touch-icon-180x180.png');
+}
+
+.mr-20 {
+  margin-right: 20px;
+}

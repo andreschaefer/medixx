@@ -102,9 +102,10 @@ function loadGapi() {
     });
 }
 loadGapi();
-
+app.version = "unknown";
 $(document).ready(function () {
-    var version = $('meta[name="medixx-version"]').attr('content');
-    log('medixx-version', version);
+    app.version = $('meta[name="medixx-version"]').attr('content');
+    app.build = $('meta[name="medixx-build"]').attr('content');
+    log('medixx-version', app.version, app.build);
     angular.bootstrap(document, ['Medixx']);
 });
