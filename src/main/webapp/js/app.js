@@ -33,7 +33,7 @@ var STATUS = {
     uploading: "upload",
     downloading: "download",
     synced: "sync"
-}
+};
 
 var app = {};
 app.module = angular.module('Medixx', ['ngRoute', 'ngTouch']);
@@ -79,10 +79,10 @@ Offline.options = {
     requests: false,
     checks: {xhr: {url: 'cache.manifest'}},
     game: false
-}
+};
 
 var gapiReady = false;
-function confirmGapi() {
+function confirmGapiix () {
     log("Loaded gapi script: typeof gapi", typeof gapi);
     log("Loaded gapi script: typeof gapi.load", typeof gapi.load);
     gapiReady = true;
@@ -96,7 +96,7 @@ function loadGapi() {
     $.ajaxSetup({
         cache: true
     });
-    $.getScript("js/libs/gapi-client.js");
+    $.getScript("https://apis.google.com/js/client.js?onload=confirmGapi");
     $.ajaxSetup({
         cache: false
     });

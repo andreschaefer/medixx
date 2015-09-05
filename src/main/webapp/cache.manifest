@@ -12,8 +12,6 @@ flaticon/flaticon.svg
 flaticon/flaticon.ttf
 css/app.css
 js/libs/offline.min.js
-js/libs/gapi-api.js
-js/libs/gapi-client.js
 js/libs/underscore-min.js
 js/libs/jquery.min.js
 js/libs/angular.js
