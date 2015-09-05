@@ -37,22 +37,27 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
         reload();
 
         function requireOnline() {
-            $log.debug("Check online status");
+            $log.debug("Require online");
             var deferred = $q.defer();
             Offline.on("confirmed-up", function () {
+                $log.debug("up");
                 if (gapiReady) {
+                    $log.debug("gapiReady: " + gapiReady);
                     deferred.resolve();
                 }
                 else {
                     app.gapiCallback = function () {
+                        $log.debug("gapi loaded");
                         deferred.resolve();
-                    }
+                    };
                     loadGapi();
                 }
             });
             Offline.on("confirmed-down", function () {
+                $log.debug("down");
                 deferred.reject();
             });
+            $log.debug("Check online status");
             Offline.check();
             return deferred.promise;
         }
