@@ -82,7 +82,7 @@ Offline.options = {
 };
 
 var gapiReady = false;
-function confirmGapiix () {
+function confirmGapi () {
     log("Loaded gapi script: typeof gapi", typeof gapi);
     log("Loaded gapi script: typeof gapi.load", typeof gapi.load);
     gapiReady = true;
