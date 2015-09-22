@@ -18,13 +18,24 @@ function log() {
         console.log(arguments);
     }
 }
+function removeFragement(url) {
+    var index = url.indexOf('#');
+    if (index > 0) {
+        return url.substring(0, index);
+    }
+    return url;
+}
+
 
 var CONFIG = {
     clientId: '127208033176-radabdvn4rdphv46bm97eon9650ts7no.apps.googleusercontent.com',
     apiKey: 'AIzaSyBbfqpyqkA6r0h57DpdhBxyAbOOQwiq4Ls',
     scopes: [
         'https://www.googleapis.com/auth/drive.appfolder'
-    ]
+    ],
+    gapiAuthBaseUrl: 'https://accounts.google.com/o/oauth2/auth?response_type=code',
+    returnTo: removeFragement(location.href),
+    isStandalone: window.navigator.standalone // true // window.navigator.standalone
 };
 
 var STATUS = {
@@ -82,7 +93,7 @@ Offline.options = {
 };
 
 var gapiReady = false;
-function confirmGapi () {
+function confirmGapi() {
     log("Loaded gapi script: typeof gapi", typeof gapi);
     log("Loaded gapi script: typeof gapi.load", typeof gapi.load);
     gapiReady = true;

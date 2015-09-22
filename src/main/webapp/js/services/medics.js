@@ -98,21 +98,47 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
                     result.resolve(token)
                 } else {
                     $log.debug("No valid token, authenticate")
-                    var params = {
+                    var conf = {
                         'client_id': CONFIG.clientId,
                         'scope': CONFIG.scopes,
-                        'immediate': immediateMode == false ? false : true,
+                        'immediate': immediateMode == false ? CONFIG.isStandalone : true,
                         'user_id': userId
                     };
-                    gapi.auth.authorize(params, function (auth) {
-                        var token = gapi.auth.getToken();
-                        $log.debug("authenticated", token);
-                        if (token) {
-                            status = STATUS.online;
-                            result.resolve(token)
+                    gapi.auth.authorize(conf, function (authResult) {
+                        // if everything is ok go on
+                        if (authResult && !authResult.error) {
+                            result.resolve(authResult);
                         } else {
-                            status = STATUS.offline;
-                            result.reject();
+                            // can not do immediate login
+                            // if we have on `apple-mobile-web-app-capable` mode we should redirect to google login page
+                            if (CONFIG.isStandalone && immediateMode !== false) {
+                                // ios homescreen standalone webapp, no popup
+                                var url = CONFIG.gapiAuthBaseUrl
+                                    + '&client_id=' + encodeURIComponent(CONFIG.clientId)
+                                    + '&scope=' + encodeURIComponent(CONFIG.scopes[0])
+                                    + '&redirect_uri=' + encodeURIComponent(CONFIG.returnTo)
+                                window.location.href = url;
+                            } else {
+                                // use usual login API from gapi.
+                                var params = {
+                                    'client_id': CONFIG.clientId,
+                                    'scope': CONFIG.scopes,
+                                    'immediate': immediateMode == false ? CONFIG.isStandalone : true,
+                                    'user_id': userId
+                                };
+
+                                gapi.auth.authorize(params, function (auth) {
+                                    var token = gapi.auth.getToken();
+                                    $log.debug("authenticated", token);
+                                    if (token) {
+                                        status = STATUS.online;
+                                        result.resolve(token)
+                                    } else {
+                                        status = STATUS.offline;
+                                        result.reject();
+                                    }
+                                });
+                            }
                         }
                     });
                 }
