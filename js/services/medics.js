@@ -114,7 +114,7 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
                             if (CONFIG.isStandalone && immediateMode !== false) {
                                 // ios homescreen standalone webapp, no popup
                                 var url = CONFIG.gapiAuthBaseUrl
-                                    + '&client_id=' + encodeURIComponent(CONFIG.clientId)
+                                    + 'client_id=' + encodeURIComponent(CONFIG.clientId)
                                     + '&scope=' + encodeURIComponent(CONFIG.scopes[0])
                                     + '&redirect_uri=' + encodeURIComponent(CONFIG.returnTo);
                                 window.location.href = url;

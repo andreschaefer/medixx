@@ -23,6 +23,10 @@ function removeFragement(url) {
     if (index > 0) {
         return url.substring(0, index);
     }
+    index = url.indexOf('?');
+    if (index > 0) {
+        return url.substring(0, index);
+    }
     return url;
 }
 
@@ -33,7 +37,7 @@ var CONFIG = {
     scopes: [
         'https://www.googleapis.com/auth/drive.appfolder'
     ],
-    gapiAuthBaseUrl: 'https://accounts.google.com/o/oauth2/auth',
+    gapiAuthBaseUrl: 'https://accounts.google.com/o/oauth2/auth?response_type=code&',
     returnTo: removeFragement(location.href),
     isStandalone: window.navigator.standalone // true // window.navigator.standalone
 };
