@@ -114,32 +114,32 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
                             //if (CONFIG.isStandalone && immediateMode !== false) {
 
                                 // ios homescreen standalone webapp, no popup
-                                var url = CONFIG.gapiAuthBaseUrl
-                                    + 'client_id=' + encodeURIComponent(CONFIG.clientId)
-                                    + '&scope=' + encodeURIComponent(CONFIG.scopes[0])
-                                    + '&redirect_uri=' + encodeURIComponent(CONFIG.returnTo);
-                                window.location.href = url;
+                                //var url = CONFIG.gapiAuthBaseUrl
+                                //    + 'client_id=' + encodeURIComponent(CONFIG.clientId)
+                                //    + '&scope=' + encodeURIComponent(CONFIG.scopes[0])
+                                //    + '&redirect_uri=' + encodeURIComponent(CONFIG.returnTo);
+                                //window.location.href = url;
 
                             //} else {
-                            //    // use usual login API from gapi.
-                            //    var params = {
-                            //        'client_id': CONFIG.clientId,
-                            //        'scope': CONFIG.scopes,
-                            //        'immediate': immediateMode == false ? CONFIG.isStandalone : true,
-                            //        'user_id': userId
-                            //    };
-                            //
-                            //    gapi.auth.authorize(params, function (auth) {
-                            //        var token = gapi.auth.getToken();
-                            //        $log.debug("authenticated", token);
-                            //        if (token) {
-                            //            status = STATUS.online;
-                            //            result.resolve(token)
-                            //        } else {
-                            //            status = STATUS.offline;
-                            //            result.reject();
-                            //        }
-                            //    });
+                                // use usual login API from gapi.
+                                var params = {
+                                    'client_id': CONFIG.clientId,
+                                    'scope': CONFIG.scopes,
+                                    'immediate': immediateMode == false ? CONFIG.isStandalone : true,
+                                    'user_id': userId
+                                };
+
+                                gapi.auth.authorize(params, function (auth) {
+                                    var token = gapi.auth.getToken();
+                                    $log.debug("authenticated", token);
+                                    if (token) {
+                                        status = STATUS.online;
+                                        result.resolve(token)
+                                    } else {
+                                        status = STATUS.offline;
+                                        result.reject();
+                                    }
+                                });
                             //}
                         }
                     });
