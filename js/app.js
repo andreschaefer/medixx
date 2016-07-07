@@ -28,8 +28,8 @@ function removeFragement(url) {
 
 
 var CONFIG = {
-    clientId: '127208033176-radabdvn4rdphv46bm97eon9650ts7no.apps.googleusercontent.com',
-    apiKey: 'AIzaSyBbfqpyqkA6r0h57DpdhBxyAbOOQwiq4Ls',
+    clientId: '71271216619-n8fq9kt68jr92jb12g2svjkatm57guac.apps.googleusercontent.com',
+    apiKey: 'zDQHFqq9aZXmchMt1q13s1qR',
     scopes: [
         'https://www.googleapis.com/auth/drive.appfolder'
     ],
