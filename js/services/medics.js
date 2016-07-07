@@ -111,14 +111,14 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
                         } else {
                             // can not do immediate login
                             // if we have on `apple-mobile-web-app-capable` mode we should redirect to google login page
-                            if (CONFIG.isStandalone && immediateMode !== false) {
-                                // ios homescreen standalone webapp, no popup
-                                var url = CONFIG.gapiAuthBaseUrl
-                                    + '&client_id=' + encodeURIComponent(CONFIG.clientId)
-                                    + '&scope=' + encodeURIComponent(CONFIG.scopes[0])
-                                    + '&redirect_uri=' + encodeURIComponent(CONFIG.returnTo)
-                                window.location.href = url;
-                            } else {
+                            //if (CONFIG.isStandalone && immediateMode !== false) {
+                            //    // ios homescreen standalone webapp, no popup
+                            //    var url = CONFIG.gapiAuthBaseUrl
+                            //        + '&client_id=' + encodeURIComponent(CONFIG.clientId)
+                            //        + '&scope=' + encodeURIComponent(CONFIG.scopes[0])
+                            //        + '&redirect_uri=' + encodeURIComponent(CONFIG.returnTo)
+                            //    window.location.href = url;
+                            //} else {
                                 // use usual login API from gapi.
                                 var params = {
                                     'client_id': CONFIG.clientId,
@@ -138,7 +138,7 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
                                         result.reject();
                                     }
                                 });
-                            }
+                            //}
                         }
                     });
                 }
