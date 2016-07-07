@@ -18,18 +18,6 @@ function log() {
         console.log(arguments);
     }
 }
-function removeFragement(url) {
-    var index = url.indexOf('#');
-    if (index > 0) {
-        return url.substring(0, index);
-    }
-    index = url.indexOf('?');
-    if (index > 0) {
-        return url.substring(0, index);
-    }
-    return url;
-}
-
 
 var CONFIG = {
     clientId: '71271216619-n8fq9kt68jr92jb12g2svjkatm57guac.apps.googleusercontent.com',
@@ -38,7 +26,7 @@ var CONFIG = {
         'https://www.googleapis.com/auth/drive.appfolder'
     ],
     gapiAuthBaseUrl: 'https://accounts.google.com/o/oauth2/auth?response_type=code&',
-    returnTo: removeFragement(location.href),
+    returnTo: location.origin ?  location.origin : (location.protocol + "//" + location.host),
     isStandalone: window.navigator.standalone // true // window.navigator.standalone
 };
 
