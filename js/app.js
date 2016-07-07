@@ -33,7 +33,7 @@ var CONFIG = {
     scopes: [
         'https://www.googleapis.com/auth/drive.appfolder'
     ],
-    gapiAuthBaseUrl: 'https://accounts.google.com/o/oauth2/auth?response_type=code',
+    gapiAuthBaseUrl: 'https://accounts.google.com/o/oauth2/auth',
     returnTo: removeFragement(location.href),
     isStandalone: window.navigator.standalone // true // window.navigator.standalone
 };
