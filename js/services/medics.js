@@ -108,10 +108,12 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
                         'user_id': userId
                     };
                     gapi.auth.authorize(conf, function (authResult) {
+                        $log.debug("Auth callback " + authResult);
                         // if everything is ok go on
                         if (authResult && !authResult.error) {
                             result.resolve(authResult);
                         } else {
+                            $log.debug("Error, retry");
                             // can not do immediate login
                             // if we have on `apple-mobile-web-app-capable` mode we should redirect to google login page
                             //if (CONFIG.isStandalone && immediateMode !== false) {
