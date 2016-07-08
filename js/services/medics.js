@@ -7,13 +7,18 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
         var status = STATUS.offline;
         var history = [];
 
-        function reload() {
+        function reloadLocal() {
             $log.debug("initialize with current local version");
             medics = loadLocal() || medics;
             history = loadHistory();
             calculate();
             $log.debug("local item", medics);
+        }
 
+        reloadLocal();
+
+        function reload() {
+            reloadLocal();
             if (isDirty()) {
                 addToHistory(medics);
                 loadRemote(function (remotedata) {
@@ -30,11 +35,9 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
                 saveLocal();
                 $rootScope.$digest();
             });
-
-
         }
 
-        reload();
+
 
         function requireOnline() {
             $log.debug("Require online");
@@ -111,16 +114,16 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
                         } else {
                             // can not do immediate login
                             // if we have on `apple-mobile-web-app-capable` mode we should redirect to google login page
-                            //if (CONFIG.isStandalone && immediateMode !== false) {
+                            if (CONFIG.isStandalone && immediateMode !== false) {
 
                                 // ios homescreen standalone webapp, no popup
-                                //var url = CONFIG.gapiAuthBaseUrl
-                                //    + 'client_id=' + encodeURIComponent(CONFIG.clientId)
-                                //    + '&scope=' + encodeURIComponent(CONFIG.scopes[0])
-                                //    + '&redirect_uri=' + encodeURIComponent(CONFIG.returnTo);
-                                //window.location.href = url;
+                                var url = CONFIG.gapiAuthBaseUrl
+                                    + 'client_id=' + encodeURIComponent(CONFIG.clientId)
+                                    + '&scope=' + encodeURIComponent(CONFIG.scopes[0])
+                                    + '&redirect_uri=' + encodeURIComponent(CONFIG.returnTo);
+                                window.location.href = url;
 
-                            //} else {
+                            } else {
                                 // use usual login API from gapi.
                                 var params = {
                                     'client_id': CONFIG.clientId,
@@ -140,7 +143,7 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
                                         result.reject();
                                     }
                                 });
-                            //}
+                            }
                         }
                     });
                 }
