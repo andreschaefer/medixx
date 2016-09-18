@@ -102,7 +102,7 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
                     var conf = {
                         'client_id': CONFIG.clientId,
                         'scope': CONFIG.scopes,
-                        'immediate': immediateMode == false ? CONFIG.isStandalone : true,
+                        'immediate': true,
                         'user_id': userId
                     };
                     gapi.auth.authorize(conf, function (authResult) {
