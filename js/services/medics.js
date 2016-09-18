@@ -34,8 +34,8 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
                 $rootScope.$digest();
             });
         }
-        reload();
 
+        reload();
 
 
         function requireOnline() {
@@ -44,7 +44,7 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
             Offline.on("confirmed-up", function () {
                 $log.debug("up");
                 if (gapiReady) {
-                    $log.debug("gapiReady: " , gapiReady);
+                    $log.debug("gapiReady: ", gapiReady);
                     deferred.resolve();
                 }
                 else {
@@ -102,11 +102,11 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
                     var conf = {
                         'client_id': CONFIG.clientId,
                         'scope': CONFIG.scopes,
-                        'immediate': true,
+                        'immediate': immediateMode == false ? CONFIG.isStandalone : true,
                         'user_id': userId
                     };
                     gapi.auth.authorize(conf, function (authResult) {
-                        $log.debug("Auth callback " , authResult);
+                        $log.debug("Auth callback ", authResult);
                         // if everything is ok go on
                         if (authResult && !authResult.error) {
                             var token = gapi.auth.getToken();
@@ -120,7 +120,7 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
                             }
 
                         } else {
-                           status = STATUS.unauthenticated;
+                            status = STATUS.unauthenticated;
                             result.reject();
                         }
                     });
@@ -132,35 +132,49 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
 
         function login() {
             var deferred = $q.defer();
-            $log.debug("Try login")
-            var conf = {
-                'client_id': CONFIG.clientId,
-                'scope': CONFIG.scopes,
-                'immediate': false,
-                'user_id': false
-            };
-            gapi.auth.authorize(conf, function (authResult) {
-                $log.debug("Auth callback " , authResult);
-                // if everything is ok go on
 
-                if (authResult && !authResult.error) {
-                    $log.debug("Auth Success");
-                    var token = gapi.auth.getToken();
-                    $log.debug("authenticated", token);
-                    if (token) {
-                        status = STATUS.online;
-                        deferred.resolve();
+            if (CONFIG.isStandalone && immediateMode !== false) {
+                // ios homescreen standalone webapp, no popup
+                var url = CONFIG.gapiAuthBaseUrl
+                    + '&client_id=' + encodeURIComponent(CONFIG.clientId)
+                    + '&scope=' + encodeURIComponent(CONFIG.scopes[0])
+                    + '&redirect_uri=' + encodeURIComponent(CONFIG.returnTo);
+                window.location.href = url;
+                deferred.reject();
+            }
+            else {
+
+                $log.debug("Try login")
+                var conf = {
+                    'client_id': CONFIG.clientId,
+                    'scope': CONFIG.scopes,
+                    'immediate': false,
+                    'user_id': false
+                };
+
+                gapi.auth.authorize(conf, function (authResult) {
+                    $log.debug("Auth callback ", authResult);
+                    // if everything is ok go on
+
+                    if (authResult && !authResult.error) {
+                        $log.debug("Auth Success");
+                        var token = gapi.auth.getToken();
+                        $log.debug("authenticated", token);
+                        if (token) {
+                            status = STATUS.online;
+                            deferred.resolve();
+                        } else {
+                            status = STATUS.offline;
+                            deferred.reject()
+                        }
+
                     } else {
-                        status = STATUS.offline;
+                        $log.debug("Auth failed");
+                        status = STATUS.unauthenticated;
                         deferred.reject()
                     }
-
-                } else {
-                    $log.debug("Auth failed");
-                    status = STATUS.unauthenticated;
-                    deferred.reject()
-                }
-            });
+                });
+            }
             return deferred.promise;
         }
 
