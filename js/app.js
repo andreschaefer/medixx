@@ -32,6 +32,7 @@ var CONFIG = {
 
 var STATUS = {
     offline: "offline",
+    unauthenticated: "unauthenticated",
     online: "online",
     uploading: "upload",
     downloading: "download",

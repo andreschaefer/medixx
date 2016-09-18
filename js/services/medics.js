@@ -15,8 +15,6 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
             $log.debug("local item", medics);
         }
 
-        reloadLocal();
-
         function reload() {
             reloadLocal();
             if (isDirty()) {
@@ -36,6 +34,7 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
                 $rootScope.$digest();
             });
         }
+        reload();
 
 
 
@@ -45,7 +44,7 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
             Offline.on("confirmed-up", function () {
                 $log.debug("up");
                 if (gapiReady) {
-                    $log.debug("gapiReady: " + gapiReady);
+                    $log.debug("gapiReady: " , gapiReady);
                     deferred.resolve();
                 }
                 else {
@@ -69,10 +68,9 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
          * Checks to make sure the user is currently authorized and the access
          * token hasn't expired.
          *
-         * @param immediateMode
          * @param userId
          */
-        function requireAuth(immediateMode, userId) {
+        function requireAuth(userId) {
             var result = $q.defer();
             var promise = result.promise;
             requireOnline()
@@ -104,54 +102,66 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
                     var conf = {
                         'client_id': CONFIG.clientId,
                         'scope': CONFIG.scopes,
-                        'immediate': immediateMode == false ? CONFIG.isStandalone : true,
+                        'immediate': true,
                         'user_id': userId
                     };
                     gapi.auth.authorize(conf, function (authResult) {
-                        $log.debug("Auth callback " + authResult);
+                        $log.debug("Auth callback " , authResult);
                         // if everything is ok go on
                         if (authResult && !authResult.error) {
-                            result.resolve(authResult);
-                        } else {
-                            $log.debug("Error, retry");
-                            // can not do immediate login
-                            // if we have on `apple-mobile-web-app-capable` mode we should redirect to google login page
-                            //if (CONFIG.isStandalone && immediateMode !== false) {
-                            //
-                            //    // ios homescreen standalone webapp, no popup
-                            //    var url = CONFIG.gapiAuthBaseUrl
-                            //        + 'client_id=' + encodeURIComponent(CONFIG.clientId)
-                            //        + '&scope=' + encodeURIComponent(CONFIG.scopes[0])
-                            //        + '&redirect_uri=' + encodeURIComponent(CONFIG.returnTo);
-                            //    window.location.href = url;
-                            //
-                            //} else {
-                                // use usual login API from gapi.
-                                var params = {
-                                    'client_id': CONFIG.clientId,
-                                    'scope': CONFIG.scopes,
-                                    'immediate': immediateMode == false ? CONFIG.isStandalone : true,
-                                    'user_id': userId
-                                };
+                            var token = gapi.auth.getToken();
+                            $log.debug("authenticated", token);
+                            if (token) {
+                                status = STATUS.online;
+                                result.resolve(token)
+                            } else {
+                                status = STATUS.offline;
+                                result.reject();
+                            }
 
-                                gapi.auth.authorize(params, function (auth) {
-                                    var token = gapi.auth.getToken();
-                                    $log.debug("authenticated", token);
-                                    if (token) {
-                                        status = STATUS.online;
-                                        result.resolve(token)
-                                    } else {
-                                        status = STATUS.offline;
-                                        result.reject();
-                                    }
-                                });
-                            //}
+                        } else {
+                           status = STATUS.unauthenticated;
+                            result.reject();
                         }
                     });
                 }
             }
 
             return promise;
+        }
+
+        function login() {
+            var deferred = $q.defer();
+            $log.debug("Try login")
+            var conf = {
+                'client_id': CONFIG.clientId,
+                'scope': CONFIG.scopes,
+                'immediate': false,
+                'user_id': false
+            };
+            gapi.auth.authorize(conf, function (authResult) {
+                $log.debug("Auth callback " , authResult);
+                // if everything is ok go on
+
+                if (authResult && !authResult.error) {
+                    $log.debug("Auth Success");
+                    var token = gapi.auth.getToken();
+                    $log.debug("authenticated", token);
+                    if (token) {
+                        status = STATUS.online;
+                        deferred.resolve();
+                    } else {
+                        status = STATUS.offline;
+                        deferred.reject()
+                    }
+
+                } else {
+                    $log.debug("Auth failed");
+                    status = STATUS.unauthenticated;
+                    deferred.reject()
+                }
+            });
+            return deferred.promise;
         }
 
         function driveClient() {
@@ -421,7 +431,8 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
             reload: reload,
             auth: requireAuth,
             history: getHistory,
-            replace: setActiveMedics
+            replace: setActiveMedics,
+            login: login
         };
     }])
 ;

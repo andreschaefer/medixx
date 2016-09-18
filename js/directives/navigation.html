@@ -51,6 +51,12 @@
                     <span class="desk-only">&nbsp;offline</span>
                 </a>
             </li>
+            <li title="Einloggen" ng-show="status('unauthenticated')">
+                <a ng-click="login()">
+                    <span class="nav-icon glyphicon glyphicon-lock"></span>
+                    <span class="desk-only">&nbsp;Einloggen?</span>
+                </a>
+            </li>
         </ul>
     </div>
 </nav>

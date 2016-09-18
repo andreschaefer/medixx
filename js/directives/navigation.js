@@ -11,13 +11,19 @@ angular.module('Medixx').directive('navigation', function ($route, $location, $m
             };
             $scope.activeRoute = function (route) {
                 return $location.path().indexOf(route) == 0;
-            }
+            };
             $scope.reload = function () {
                 $medics.auth(false).then(function () {
                     $medics.reload();
                     $location.path("/list");
                 });
-            }
+            };
+            $scope.login = function () {
+                $medics.login().then(function () {
+                    $medics.reload();
+                    $location.path("/list");
+                });
+            };
         }
     };
 });
