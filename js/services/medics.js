@@ -133,7 +133,7 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
         function login() {
             var deferred = $q.defer();
 
-            if (CONFIG.isStandalone && immediateMode !== false) {
+            if (CONFIG.isStandalone) {
                 // ios homescreen standalone webapp, no popup
                 var url = CONFIG.gapiAuthBaseUrl
                     + '&client_id=' + encodeURIComponent(CONFIG.clientId)
