@@ -81,7 +81,7 @@ Offline.options = {
     interceptRequests: false,
     reconnect: false,
     requests: false,
-    checks: {xhr: {url: 'cache.manifest'}},
+    checks: {xhr: {url: '/'}},
     game: false
 };
 
