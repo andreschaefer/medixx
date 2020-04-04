@@ -15,7 +15,7 @@
 'use strict';
 function log() {
     if (console && console.log) {
-        console.log(arguments);
+        console.log.apply(null, arguments);
     }
 }
 
