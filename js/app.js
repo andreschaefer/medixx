@@ -68,6 +68,12 @@ app.module.config(['$routeProvider',
                     templateUrl: 'views/history.html',
                     controller: 'HistoryCtrl'
                 })
+				.when('/privacy', {
+					templateUrl: 'views/privacy.html'
+				})
+				.when('/terms', {
+					templateUrl: 'views/terms.html'
+				})
                 .otherwise({
                     redirectTo: '/list'
                 });
