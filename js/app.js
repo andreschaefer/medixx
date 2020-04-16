@@ -20,8 +20,8 @@ function log() {
 }
 
 var CONFIG = {
-    clientId: '71271216619-n8fq9kt68jr92jb12g2svjkatm57guac.apps.googleusercontent.com',
-    apiKey: 'zDQHFqq9aZXmchMt1q13s1qR',
+    clientId: '611291574230-92snv97ctuc8imbc6rt4gkdshie8ooqq.apps.googleusercontent.com',
+    apiKey: 'AIzaSyDVrtTJuepNOQOMs5atO6wbBM27XSTi-cU',
     scopes: [
         'https://www.googleapis.com/auth/drive.appfolder'
     ],
