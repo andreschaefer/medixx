@@ -28,7 +28,7 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
                 })
             }
             loadRemote(function (remotedata) {
-                medics.stocks = remotedata.stocks;
+                medics.stocks = remotedata && remotedata.stocks ? remotedata.stocks : medics.stocks;
                 calculate();
                 saveLocal();
                 $rootScope.$digest();
@@ -186,7 +186,7 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
             }
             else {
                 return requireAuth().then(function () {
-                    return gapi.client.load('drive', 'v2');
+                    return gapi.client.load('drive', 'v3');
                 })
             }
         }
@@ -331,7 +331,7 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
                 close_delim;
 
             var request = gapi.client.request({
-                'path': '/upload/drive/v2/files',
+                'path': '/upload/drive/v3/files',
                 'method': 'POST',
                 'params': {'uploadType': 'multipart'},
                 'headers': {
@@ -389,6 +389,7 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
                             status = STATUS.online;
                             if (resp && resp.items && resp.items.length > 0) {
                                 var metadata = resp.items[0];
+                                $log.debug(metadata);
                                 load(metadata.downloadUrl, callback);
                             } else {
                                 saveRemote(callback);
