@@ -1,1 +1,1 @@
-web: java -jar build/libs/medixx.jar
+web: java -jar -Dserver.port=$PORT build/libs/medixx.jar
