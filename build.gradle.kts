@@ -1,7 +1,6 @@
 plugins {
     id("org.springframework.boot") version "2.2.5.RELEASE"
     id("io.spring.dependency-management") version "1.0.9.RELEASE"
-    id("com.gorylenko.gradle-git-properties") version "2.2.2"
     id("com.github.hierynomus.license-base") version "0.15.0"
     java
     id("com.github.ben-manes.versions") version "0.28.0"
