@@ -1,0 +1,11 @@
+version: '2'
+services:
+  db:
+    container_name: medixx-db
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: medixx
+      POSTGRES_USER: medixx
+      POSTGRES_DB: medixx
+    ports:
+    - 5432:5432

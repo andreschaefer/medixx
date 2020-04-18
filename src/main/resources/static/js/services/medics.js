@@ -8,30 +8,34 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
 		let history = [];
 
 		function reloadLocal() {
-			$log.debug("$medics.reloadLocal");
 			medics = loadLocal() || medics;
 			history = loadHistory();
-			calculate();
-			$log.debug("local item", medics);
 		}
 
 		function reload() {
 			$log.debug("$medics.reload");
 			reloadLocal();
 			if (isDirty()) {
+				calculate();
 				addToHistory(medics);
 				loadRemote(function (remotedata) {
-					var lastRemote = remotedata;
-					if (lastRemote.date && medics && medics.date && medics.date > lastRemote.date) {
+					$log.debug("reload.dirty.loadRemote remotedata", remotedata);
+					$log.debug("reload.dirty.loadRemote medics", medics);
+					let lastRemote = remotedata;
+					if (!lastRemote || !lastRemote.date || (medics && medics.date && medics.date > lastRemote.date)) {
 						saveRemote(); // not relevant for result
 					}
 					$rootScope.$digest();
 				})
 			}
 			loadRemote(function (remotedata) {
-				medics.stocks = remotedata && remotedata.stocks ? remotedata.stocks : medics.stocks;
+				$log.debug("reload.loadRemote remotedata", remotedata);
+				$log.debug("reload.loadRemote medics", medics);
+				if (remotedata && remotedata.stocks) {
+					medics.stocks = remotedata.stocks;
+				}
 				calculate();
-				saveLocal();
+				saveRemote();
 				$rootScope.$digest();
 			});
 		}
@@ -39,7 +43,6 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
 		reload();
 
 		function requireOnline() {
-			$log.debug("$medics.requireOnline");
 			let deferred = $q.defer();
 			Offline.on("confirmed-up", function () {
 				$log.debug("up");
@@ -60,7 +63,6 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
 		 *
 		 */
 		function requireAuth() {
-			$log.debug("$medics.requireAuth");
 			let result = $q.defer();
 			let promise = result.promise;
 			requireOnline()
@@ -191,7 +193,8 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
 			}
 			else {
 				// check if dirty when no toggle provide
-				let dirty = !!localStorage.getItem(key("dirty"));
+				let dirty = localStorage.getItem(key("dirty"));
+				dirty = typeof (dirty) !== "undefined" && dirty !== null && dirty;
 				$log.debug("Is dirty", dirty);
 				return dirty;
 			}
@@ -261,6 +264,7 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
 						},
 						error: function () {
 							status = STATUS.online;
+							callback(null)
 						}
 					});
 			})

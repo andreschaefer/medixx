@@ -1,7 +1,10 @@
-package ch.aschaefer.medixx;
+package ch.aschaefer.medixx.stock;
 
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +24,7 @@ public class StockController {
 	}
 
 	@GetMapping(MAPPING)
-	public String get(@PathVariable("id") String id,
+	public Stocks get(@PathVariable("id") String id,
 	                  Authentication authentication) {
 
 		if (authentication == null || !id.equals(authentication.getName())) {
@@ -32,7 +35,7 @@ public class StockController {
 
 	@PostMapping(value = MAPPING, consumes = APPLICATION_JSON_VALUE)
 	public void post(@PathVariable("id") String id,
-	                 @RequestBody String data,
+	                 @RequestBody Stocks data,
 	                 Authentication authentication) {
 
 		if (authentication == null || !id.equals(authentication.getName())) {
@@ -41,4 +44,8 @@ public class StockController {
 		repository.put(id, data);
 	}
 
+	@ExceptionHandler(EmptyResultDataAccessException.class)
+	public ResponseEntity<Void> notFount(EmptyResultDataAccessException exception) {
+		return ResponseEntity.notFound().build();
+	}
 }
