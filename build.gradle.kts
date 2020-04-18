@@ -21,7 +21,6 @@ dependencyManagement {
 }
 dependencies {
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
-    implementation("org.springframework.boot:spring-boot-starter-cloud-connectors")
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-web")
