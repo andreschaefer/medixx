@@ -29,6 +29,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 		    .antMatchers(HttpMethod.OPTIONS).permitAll()
 		    .antMatchers("/api/**").hasAnyAuthority("MEDIXX")
+		    .anyRequest().permitAll()
 		    .and()
 		    .httpBasic().and()
 		    .csrf().disable();
