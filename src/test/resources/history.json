@@ -1,0 +1,59 @@
+[
+	{
+		"date": "2020-04-15T16:58:59.981Z",
+		"id": "2020-04-15T16:58:59.981Z",
+		"medics": {
+			"stocks": [
+				{
+					"id": "dasdasd",
+					"name": "dasdasd",
+					"stock": 3,
+					"consumption": 1,
+					"package": 100,
+					"date": "2020-04-15T16:58:59.981Z",
+					"remainingDays": 3,
+					"depleted": "2020-04-18T16:58:59.981Z"
+				}
+			],
+			"date": "2020-04-15T16:58:59.981Z"
+		}
+	},
+	{
+		"date": "2020-04-18T07:36:06.741Z",
+		"id": "2020-04-18T07:36:06.741Z",
+		"medics": {
+			"stocks": [
+				{
+					"id": "dasdasd",
+					"name": "dasdasd",
+					"stock": 0,
+					"consumption": 1,
+					"package": 100,
+					"date": "2020-04-18T11:00:19.867Z",
+					"remainingDays": 0,
+					"depleted": "2020-04-18T11:00:19.867Z"
+				}
+			],
+			"date": "2020-04-18T07:36:06.741Z"
+		}
+	},
+	{
+		"date": "2020-04-18T11:00:22.004Z",
+		"id": "2020-04-18T11:00:22.004Z",
+		"medics": {
+			"stocks": [
+				{
+					"id": "dasdasd",
+					"name": "dasdasd",
+					"stock": 0,
+					"consumption": 1,
+					"package": 100,
+					"date": "2020-04-18T11:07:34.223Z",
+					"remainingDays": 0,
+					"depleted": "2020-04-18T11:07:34.223Z"
+				}
+			],
+			"date": "2020-04-18T11:00:22.004Z"
+		}
+	}
+]

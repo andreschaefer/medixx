@@ -1,21 +1,20 @@
 package ch.aschaefer.medixx;
 
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
 
-/**
- * SecurityConfiguration.
- *
- * @author aschaefer
- * @since 18.04.20 11:15
- */
+import java.time.Duration;
+
 @Configuration
-@EnableConfigurationProperties(MedixxProperties.class)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	private final MedixxProperties medixxProperties;
@@ -25,27 +24,49 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 
 	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
-		    .antMatchers(HttpMethod.OPTIONS).permitAll()
-		    .antMatchers("/api/**").hasAnyAuthority("MEDIXX")
-		    .anyRequest().permitAll()
-		    .and()
-		    .httpBasic().and()
-		    .csrf().disable();
-	}
-
-	/**
-	 * Configure the authenticatino-manager of this WebSecurityConfigurerAdapter.
-	 *
-	 * @param auth the authentication-manager builder
-	 */
-	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.parentAuthenticationManager(null);
 		var inMemory = auth.inMemoryAuthentication().passwordEncoder(new BCryptPasswordEncoder());
 		medixxProperties.getUser().forEach((name, password) -> inMemory.withUser(name).password(password).authorities("MEDIXX").and());
 	}
 
+	@Override
+	public void configure(WebSecurity web) {
+		web.ignoring()
+		   .antMatchers(
+				   "/css/**",
+				   "/flaticon/**",
+				   "/fonts/**",
+				   "/icon/**",
+				   "/js/**",
+				   "/browserconfig.xml",
+				   "/favicon.ico"
+		   );
+	}
+
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http.authorizeRequests()
+		    .antMatchers(HttpMethod.OPTIONS).permitAll()
+		    .antMatchers("/require/login").hasAnyAuthority("MEDIXX")
+		    .antMatchers("/api/**").hasAnyAuthority("MEDIXX")
+		    .anyRequest().permitAll()
+		    .and()
+		    .formLogin()
+		    .and()
+		    .exceptionHandling()
+		    .defaultAuthenticationEntryPointFor(new Http403ForbiddenEntryPoint(), new AntPathRequestMatcher("/api/**"))
+		    .and()
+		    .csrf().disable();
+
+		http.rememberMe().rememberMeServices(rememberMeServices());
+	}
+
+	@Bean
+	public SpringSessionRememberMeServices rememberMeServices() {
+		var rememberMeServices = new SpringSessionRememberMeServices();
+		rememberMeServices.setAlwaysRemember(true);
+		rememberMeServices.setValiditySeconds((int) Duration.ofDays(365).toSeconds());
+		return rememberMeServices;
+	}
 
 }

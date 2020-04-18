@@ -1,7 +1,6 @@
 plugins {
-    id("org.springframework.boot") version "2.2.5.RELEASE"
+    id("org.springframework.boot") version "2.2.6.RELEASE"
     id("io.spring.dependency-management") version "1.0.9.RELEASE"
-    id("com.github.hierynomus.license-base") version "0.15.0"
     java
     id("com.github.ben-manes.versions") version "0.28.0"
 }
@@ -21,11 +20,13 @@ dependencyManagement {
     }
 }
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     implementation("org.springframework.boot:spring-boot-starter-cloud-connectors")
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.session:spring-session-data-redis")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
@@ -35,8 +36,4 @@ dependencies {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
-license {
-    mapping("java", "SLASHSTAR_STYLE")
-}
-
 

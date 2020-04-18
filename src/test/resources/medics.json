@@ -1,0 +1,15 @@
+{
+	"stocks": [
+		{
+			"id": "dasdasd",
+			"name": "dasdasd",
+			"stock": 0,
+			"consumption": 1,
+			"package": 100,
+			"date": "2020-04-18T11:07:35.983Z",
+			"remainingDays": 0,
+			"depleted": "2020-04-18T11:07:35.983Z"
+		}
+	],
+	"date": "2020-04-18T11:07:35.983Z"
+}
