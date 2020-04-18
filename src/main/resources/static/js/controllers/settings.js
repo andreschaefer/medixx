@@ -13,7 +13,7 @@ angular.module('Medixx').controller('SettingsCtrl', ['$scope', '$routeParams', '
             window.location.reload(true);
         };
         $scope.logout = function () {
-            window.location.href="https://accounts.google.com/Logout";
+			$medics.logout()
         };
     }]);
 

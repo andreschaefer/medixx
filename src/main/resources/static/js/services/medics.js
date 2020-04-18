@@ -286,6 +286,18 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
 			reload();
 		}
 
+		function logout() {
+			$log.debug("$medics.logout");
+			medics = {"stocks": []};
+			user = null;
+			status = STATUS.offline;
+			history = [];
+			localStorage.removeItem(key("history"));
+			localStorage.removeItem(key("medics"));
+			isDirty(false);
+			window.location.href="/logout";
+		}
+
 		function reset(callback) {
 			$log.debug("$medics.reset");
 			addToHistory(medics);
@@ -319,7 +331,8 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
 			auth: requireAuth,
 			history: getHistory,
 			replace: setActiveMedics,
-			login: login
+			login: login,
+			logout: logout
 		};
 	}])
 ;
