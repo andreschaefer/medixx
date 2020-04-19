@@ -11,8 +11,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2 # https://github.com/actions/checkout
       - name: Login Heroku
-          env:
-            HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-          run: heroku login
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku login
       - run: git remote add heroku https://git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
       - run: git push -fq heroku master
