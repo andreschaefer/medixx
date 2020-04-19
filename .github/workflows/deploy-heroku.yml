@@ -7,11 +7,19 @@ on:
 jobs:
   build:
     name: Deploy
-    runs-on: ruby:2.6
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2 # https://github.com/actions/checkout
-      - run: gem install dpl
-      - run: dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_API_KEY
+      - run: heroku login
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
           HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+      - run: git remote add heroku https://git.heroku.com/$HEROKU_APP_NAME.git
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+      - run: git push -fq heroku master
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+
