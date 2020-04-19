@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2 # https://github.com/actions/checkout
+      - run: gem install dpl
       - run: dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_API_KEY
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
