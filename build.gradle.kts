@@ -39,5 +39,3 @@ dependencies {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
-
-logger.error("Version:" + System.getenv("HEROKU_RELEASE_VERSION"))
