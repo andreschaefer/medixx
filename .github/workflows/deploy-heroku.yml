@@ -10,9 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2 # https://github.com/actions/checkout
-      - name: Login Heroku
+      - run: dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_API_KEY
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku login
-      - run: git remote add heroku https://git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
-      - run: git push -fq heroku master
+          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
