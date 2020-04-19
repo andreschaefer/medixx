@@ -1,1 +1,1 @@
-web: java -jar -Dserver.port=$PORT -Dspring.profiles.active=heroku build/libs/medixx.jar
+web: java -jar  $JAVA_OPTS -Dserver.port=$PORT build/libs/*.jar
