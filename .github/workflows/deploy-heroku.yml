@@ -7,7 +7,7 @@ on:
 jobs:
   build:
     name: Deploy
-    runs-on: ruby:2.5
+    runs-on: ruby:2.6
     steps:
       - uses: actions/checkout@v2 # https://github.com/actions/checkout
       - run: gem install dpl
