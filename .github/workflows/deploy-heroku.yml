@@ -1,0 +1,14 @@
+name: Deploy Heroku
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2 # https://github.com/actions/checkout
+      - run: git remote add heroku https://heroku:${{ secrets.HEROKU_APP_NAME }}@git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
+      - run: git push -fq heroku master
