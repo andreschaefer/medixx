@@ -10,6 +10,11 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Controller
 public class LoginController {
 
+	@GetMapping("/login")
+	public String form() {
+		return "login";
+	}
+
 	@GetMapping("/require/login")
 	public String login() {
 		return "redirect:/";

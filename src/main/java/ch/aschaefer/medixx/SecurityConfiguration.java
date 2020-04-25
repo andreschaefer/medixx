@@ -51,7 +51,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		    .antMatchers("/api/**").hasAnyAuthority("MEDIXX")
 		    .anyRequest().permitAll()
 		    .and()
-		    .formLogin().and()
+		    .formLogin().loginPage("/login").and()
 		    .logout().logoutUrl("/logout").logoutSuccessUrl("/")
 		    .and()
 		    .exceptionHandling()

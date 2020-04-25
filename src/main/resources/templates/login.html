@@ -7,11 +7,9 @@
 	<meta charset="utf-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
 
-	<title>Medixx</title>
+	<title>Medixx - Login</title>
 
 	<link rel="stylesheet" href="css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
-	<link rel="stylesheet" href="css/animations.css" th:href="@{/css/animations.css}"/>
-	<link rel="stylesheet" href="flaticon/flaticon.css" th:href="@{/flaticon/flaticon.css}"/>
 	<link rel="stylesheet" href="css/app.css" th:href="@{/css/app.css}"/>
 
 	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" th:href="@{/favicon.ico}"/>
@@ -36,36 +34,21 @@
 
 	<meta name="apple-mobile-web-app-capable" content="no"/>
 	<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
-
-
 </head>
-<body>
-<navigation></navigation>
-
-
-<main role="main">
-	<div class="view-container">
-		<div ng-view class="view-frame"></div>
-	</div>
-</main>
-
-
-<script src="js/libs/offline.min.js" th:src="@{/js/libs/offline.min.js}"></script>
-<script src="js/libs/underscore-min.js" th:src="@{/js/libs/underscore-min.js}"></script>
-<script src="js/libs/jquery.min.js" th:src="@{/js/libs/jquery.min.js}"></script>
-<script src="js/libs/angular.js" th:src="@{/js/libs/angular.js}"></script>
-<script src="js/libs/angular-route.min.js" th:src="@{/js/libs/angular-route.min.js}"></script>
-<script src="js/libs/angular-touch.min.js" th:src="@{/js/libs/angular-touch.min.js}"></script>
-<script src="js/app.js" th:src="@{/js/app.js}"></script>
-
-<script src="js/directives/navigation.js" th:src="@{/js/directives/navigation.js}"></script>
-<script src="js/controllers/detail.js" th:src="@{/js/controllers/detail.js}"></script>
-<script src="js/controllers/edit.js" th:src="@{/js/controllers/edit.js}"></script>
-<script src="js/controllers/list.js" th:src="@{/js/controllers/list.js}"></script>
-<script src="js/controllers/settings.js" th:src="@{/js/controllers/settings.js}"></script>
-<script src="js/controllers/history.js" th:src="@{/js/controllers/history.js}"></script>
-<script src="js/services/medics.js" th:src="@{/js/services/medics.js}"></script>
-
-
+<body class="login-page">
+<div class="container">
+	<form class="login-form" method="post" action="/login">
+		<img class="login-logo" src="icon/touch-icon-120x120.png" th:src="@{/icon/touch-icon-120x120.png}" aria-hidden="true" alt="Medixx - Login"/>
+		<p>
+			<label for="username" class="sr-only">Benutzername</label>
+			<input type="text" id="username" name="username" class="form-control" placeholder="Benutzername" required autofocus>
+		</p>
+		<p>
+			<label for="password" class="sr-only">Passwort</label>
+			<input type="password" id="password" name="password" class="form-control" placeholder="Passwort" required>
+		</p>
+		<button class="btn btn-lg btn-default btn-block" type="submit">Anmelden</button>
+	</form>
+</div>
 </body>
 </html>

@@ -78,3 +78,18 @@ a {
 .mr-20 {
   margin-right: 20px;
 }
+
+body.login-page {
+	background-color: #aaddff;
+}
+
+.login-form {
+	max-width: 330px;
+	padding: 15px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.login-logo {
+	padding-bottom: 20px;
+}
