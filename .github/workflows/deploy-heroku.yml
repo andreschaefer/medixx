@@ -14,6 +14,10 @@ jobs:
           ref: 'master'
       - run: git status
       - run: git fetch --prune --unshallow
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - run: chmod +x gradlew
       - run: ./gradlew bootJar -x test
       - run: heroku deploy:jar build/libs/*.jar
         env:
