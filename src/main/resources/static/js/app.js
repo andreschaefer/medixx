@@ -25,23 +25,23 @@ app.module.config(['$routeProvider',
 	function ($routeProvider) {
 		$routeProvider
 			.when('/list', {
-				templateUrl: 'views/list.html',
+				templateUrl: '/' + app.version + 'views/list.html',
 				controller: 'ListCtrl'
 			})
 			.when('/detail/:medicId', {
-				templateUrl: 'views/detail.html',
+				templateUrl: '/' + app.version + 'views/detail.html',
 				controller: 'DetailCtrl'
 			})
 			.when('/edit/:medicId', {
-				templateUrl: 'views/edit.html',
+				templateUrl: '/' + app.version + 'views/edit.html',
 				controller: 'EditCtrl'
 			})
 			.when('/settings', {
-				templateUrl: 'views/settings.html',
+				templateUrl: '/' + app.version + 'views/settings.html',
 				controller: 'SettingsCtrl'
 			})
 			.when('/history', {
-				templateUrl: 'views/history.html',
+				templateUrl: '/' + app.version + 'views/history.html',
 				controller: 'HistoryCtrl'
 			})
 			.otherwise({

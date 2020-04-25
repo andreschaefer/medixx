@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta name="medixx-version" content="1.4.19" th:attr="content=${@environment.getProperty('git.build.version')}"/>
+	<meta name="medixx-build" content="18.4.2020 9:34" th:attr="content=${@environment.getProperty('build.time')}"/>
+
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+
+	<title>Medixx</title>
+
+	<link rel="stylesheet" href="css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
+	<link rel="stylesheet" href="css/animations.css" th:href="@{/css/animations.css}"/>
+	<link rel="stylesheet" href="flaticon/flaticon.css" th:href="@{/flaticon/flaticon.css}"/>
+	<link rel="stylesheet" href="css/app.css" th:href="@{/css/app.css}"/>
+
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" th:href="@{/favicon.ico}"/>
+	<link rel="apple-touch-icon" href="icon/touch-icon.png" th:href="@{/icon/touch-icon.png}"/>
+	<link rel="apple-touch-icon" sizes="57x57" href="icon/touch-icon-57x57.png" th:href="@{/icon/touch-icon-57x57.png}"/>
+	<link rel="apple-touch-icon" sizes="72x72" href="icon/touch-icon-72x72.png" th:href="@{/icon/touch-icon-72x72.png}"/>
+	<link rel="apple-touch-icon" sizes="76x76" href="icon/touch-icon-76x76.png" th:href="@{/icon/touch-icon-76x76.png}"/>
+	<link rel="apple-touch-icon" sizes="114x114" href="icon/touch-icon-114x114.png" th:href="@{/icon/touch-icon-114x114.png}"/>
+	<link rel="apple-touch-icon" sizes="120x120" href="icon/touch-icon-120x120.png" th:href="@{/icon/touch-icon-120x120.png}"/>
+	<link rel="apple-touch-icon" sizes="128x128" href="icon/touch-icon-128x128.png" th:href="@{/icon/touch-icon-128x128.png}"/>
+	<link rel="apple-touch-icon" sizes="144x144" href="icon/touch-icon-144x144.png" th:href="@{/icon/touch-icon-144x144.png}"/>
+	<link rel="apple-touch-icon" sizes="152x152" href="icon/touch-icon-152x152.png" th:href="@{/icon/touch-icon-152x152.png}"/>
+	<link rel="apple-touch-icon" sizes="180x180" href="icon/touch-icon-180x180.png" th:href="@{/icon/touch-icon-180x180.png}"/>
+	<link rel="icon" type="image/png" href="icon/favicon.png" th:href="@{/icon/favicon.png}"/>
+
+	<meta name="application-name" content="Medixx"/>
+	<meta name="msapplication-tooltip" content="Medixx - Pillenverwaltung"/>
+	<meta name="msapplication-starturl" content="/"/>
+	<meta name="msapplication-config" content="browserconfig.xml"/>
+	<meta name="msapplication-TileColor" content="#9bd3ff"/>
+	<meta name="msapplication-TileImage" content="icon/favicon.png" th:attr="content=@{/icon/favicon.png}"/>
+
+	<meta name="apple-mobile-web-app-capable" content="no"/>
+	<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+
+
+</head>
+<body>
+<navigation></navigation>
+
+
+<main role="main">
+	<div class="view-container">
+		<div ng-view class="view-frame"></div>
+	</div>
+</main>
+
+
+<script src="js/libs/offline.min.js" th:src="@{/js/libs/offline.min.js}"></script>
+<script src="js/libs/underscore-min.js" th:src="@{/js/libs/underscore-min.js}"></script>
+<script src="js/libs/jquery.min.js" th:src="@{/js/libs/jquery.min.js}"></script>
+<script src="js/libs/angular.js" th:src="@{/js/libs/angular.js}"></script>
+<script src="js/libs/angular-route.min.js" th:src="@{/js/libs/angular-route.min.js}"></script>
+<script src="js/libs/angular-touch.min.js" th:src="@{/js/libs/angular-touch.min.js}"></script>
+<script src="js/app.js" th:src="@{/js/app.js}"></script>
+
+<script src="js/directives/navigation.js" th:src="@{/js/directives/navigation.js}"></script>
+<script src="js/controllers/detail.js" th:src="@{/js/controllers/detail.js}"></script>
+<script src="js/controllers/edit.js" th:src="@{/js/controllers/edit.js}"></script>
+<script src="js/controllers/list.js" th:src="@{/js/controllers/list.js}"></script>
+<script src="js/controllers/settings.js" th:src="@{/js/controllers/settings.js}"></script>
+<script src="js/controllers/history.js" th:src="@{/js/controllers/history.js}"></script>
+<script src="js/services/medics.js" th:src="@{/js/services/medics.js}"></script>
+
+
+</body>
+</html>
