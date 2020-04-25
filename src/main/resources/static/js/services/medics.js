@@ -35,6 +35,7 @@ angular.module('Medixx').service('$medics', ['$log', 'config', '$q', '$rootScope
 					medics.stocks = remotedata.stocks;
 				}
 				calculate();
+				saveLocal()
 				saveRemote();
 				$rootScope.$digest();
 			});
