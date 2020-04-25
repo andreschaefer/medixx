@@ -19,7 +19,11 @@ jobs:
           java-version: 11
       - run: chmod +x gradlew
       - run: ./gradlew bootJar -x test
-      - run: heroku deploy:jar build/libs/*.jar
+      - run: heroku plugins:install java
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+      - run: heroku deploy:jar build/libs/*.jar --app ${HEROKU_APP_NAME}
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
           HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
