@@ -18,8 +18,4 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Build and Push docker image
-        env:
-          DOCKER_EMAIL: ${{ secrets.DOCKER_EMAIL }}
-          DOCKER_USER: ${{ secrets.DOCKER_USER }}
-          DOCKER_PASSWORD: ${{ secrets.          DOCKER_PASSWORD }}
-        run: ./mvnw -B -Ddocker.registry.email="${DOCKER_EMAIL}" -Ddocker.registry.username="${DOCKER_USER}" -Ddocker.registry.password="${DOCKER_PASSWORD}" -P publish package
+        run: ./mvnw -B -Ddocker.registry.email="${{ secrets.DOCKER_EMAIL }}" -Ddocker.registry.username="${{ secrets.DOCKER_USER }}" -Ddocker.registry.password="${{ secrets.DOCKER_TOKEN }}" -P publish package
