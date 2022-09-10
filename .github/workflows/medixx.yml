@@ -17,5 +17,10 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
-      - name: Build and Push docker image
-        run: ./mvnw -B -Ddocker.registry.email="${{ secrets.DOCKER_EMAIL }}" -Ddocker.registry.username="${{ secrets.DOCKER_USER }}" -Ddocker.registry.password="${{ secrets.DOCKER_TOKEN }}" -P publish package
+      - name: Build Docker Image
+        run: ./mvnw -B -P publish package
+      - name: Login to Docker Registry
+        run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u "${{ secrets.DOCKER_USER }}" --password-stdin
+      - name: Push Docker Image to Registry
+        run: docker push aschaefer/medixx:latest
+
