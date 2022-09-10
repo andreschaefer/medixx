@@ -15,4 +15,4 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
-      - run: ./mvnw -B package -P publish -Ddocker.registry.username=${DOCKER_USER} -Ddocker.registry.password=${DOCKER_TOKEN}
+      - run: ./mvnw -B package -P publish -Ddocker.registry.email="${DOCKER_EMAIL}" -Ddocker.registry.username="${DOCKER_USER}" -Ddocker.registry.password="${DOCKER_TOKEN}"
