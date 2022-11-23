@@ -18,5 +18,5 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Build Docker Image
-        run: ./mvnw -B -P publish package -Ddocker.publishRegistry.username="${{ secrets.DOCKER_USER }}" -Ddocker.publishRegistry.token="${{ secrets.DOCKER_TOKEN }}"
+        run: ./mvnw -B -P publish package -Ddocker.publishRegistry.username="${{ secrets.DOCKER_USER }}" -Ddocker.publishRegistry.password="${{ secrets.DOCKER_PASSWORD }}"
 

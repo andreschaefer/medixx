@@ -136,7 +136,7 @@
 							<docker>
 								<publishRegistry>
 									<username>${docker.publishRegistry.username}</username>
-									<token>${docker.publishRegistry.token}</token>
+									<password>${docker.publishRegistry.password}</password>
 								</publishRegistry>
 							</docker>
 						</configuration>
