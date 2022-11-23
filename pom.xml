@@ -131,6 +131,7 @@
 							</layers>
 							<image>
 								<name>aschaefer/medixx:${project.version}</name>
+								<publish>true</publish>
 							</image>
 						</configuration>
 					</plugin>
