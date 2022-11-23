@@ -133,6 +133,12 @@
 								<name>aschaefer/medixx:${project.version}</name>
 								<publish>true</publish>
 							</image>
+							<docker>
+								<publishRegistry>
+									<username>${docker.publishRegistry.username}</username>
+									<token>${docker.publishRegistry.token}</token>
+								</publishRegistry>
+							</docker>
 						</configuration>
 					</plugin>
 				</plugins>
