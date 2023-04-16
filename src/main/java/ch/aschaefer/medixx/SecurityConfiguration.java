@@ -22,8 +22,8 @@ public class SecurityConfiguration {
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
-			.antMatchers(
+		http.authorizeHttpRequests( authorize -> authorize
+			.requestMatchers(
 					"/css/**",
 					"/flaticon/**",
 					"/fonts/**",
@@ -32,11 +32,10 @@ public class SecurityConfiguration {
 					"/browserconfig.xml",
 					"/favicon.ico"
 			).permitAll()
-			.antMatchers(HttpMethod.OPTIONS).permitAll()
-			.antMatchers("/require/login").hasAnyAuthority("MEDIXX")
-			.antMatchers("/api/**").hasAnyAuthority("MEDIXX")
-			.anyRequest().permitAll()
-			.and()
+			.requestMatchers(HttpMethod.OPTIONS).permitAll()
+			.requestMatchers("/require/login").hasAnyAuthority("MEDIXX")
+			.requestMatchers("/api/**").hasAnyAuthority("MEDIXX")
+			.anyRequest().permitAll())
 			.formLogin().loginPage("/login").and()
 			.logout().logoutUrl("/logout").logoutSuccessUrl("/")
 			.and()

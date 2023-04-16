@@ -8,7 +8,6 @@ import org.springframework.context.annotation.PropertySource;
 @SpringBootApplication
 @EnableConfigurationProperties(MedixxProperties.class)
 @PropertySource(name = "git.properties", value = "classpath:/git.properties", ignoreResourceNotFound = true)
-@PropertySource(name = "build-info.properties", value = "classpath:/META-INF/build-info.properties", ignoreResourceNotFound = true)
 public class MedixxApplication {
 
 	public static void main(String[] args) {
