@@ -135,7 +135,7 @@
 							</execution>
 							<execution>
 								<goals>
-									<goal>build-image</goal>
+									<goal>build-image-no-fork</goal>
 								</goals>
 							</execution>
 						</executions>
@@ -147,6 +147,7 @@
 								<name>aschaefer/medixx:${project.version}</name>
 								<tags>aschaefer/medixx:latest</tags>
 								<publish>true</publish>
+								<createdDate>now</createdDate>
 							</image>
 							<docker>
 								<publishRegistry>
