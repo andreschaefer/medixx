@@ -64,7 +64,8 @@ app.version = "unknown";
 $(document).ready(function () {
 	app.version = $('meta[name="medixx-version"]').attr('content');
 	app.build = $('meta[name="medixx-build"]').attr('content');
-	log('medixx-version', app.version, app.build);
+	app.time = $('meta[name="medixx-time"]').attr('content');
+	log('medixx-version', app.version, app.build, app.time);
 	angular.bootstrap(document, ['Medixx']);
 	$.ajaxSetup({
 		withCredentials: true

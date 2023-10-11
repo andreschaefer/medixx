@@ -3,6 +3,7 @@ angular.module('Medixx').controller('SettingsCtrl', ['$scope', '$routeParams', '
     function ($scope, $routeParams, $medics, $log) {
         $scope.version = app.version;
         $scope.build = app.build;
+        $scope.time = app.time;
         $scope.reset = function () {
             $medics.reset();
         };
