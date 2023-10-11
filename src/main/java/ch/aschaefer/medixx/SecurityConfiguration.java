@@ -6,10 +6,13 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
 
@@ -22,29 +25,27 @@ public class SecurityConfiguration {
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.authorizeHttpRequests( authorize -> authorize
-			.requestMatchers(
-					"/css/**",
-					"/flaticon/**",
-					"/fonts/**",
-					"/icon/**",
-					"/js/**",
-					"/browserconfig.xml",
-					"/favicon.ico"
-			).permitAll()
-			.requestMatchers(HttpMethod.OPTIONS).permitAll()
-			.requestMatchers("/require/login").hasAnyAuthority("MEDIXX")
-			.requestMatchers("/api/**").hasAnyAuthority("MEDIXX")
-			.anyRequest().permitAll())
-			.formLogin().loginPage("/login").and()
-			.logout().logoutUrl("/logout").logoutSuccessUrl("/")
-			.and()
-			.exceptionHandling()
-			.defaultAuthenticationEntryPointFor(new Http403ForbiddenEntryPoint(), new AntPathRequestMatcher("/api/**"))
-			.and()
-			.csrf().disable();
+		http.authorizeHttpRequests(authorize -> authorize
+						.requestMatchers(
+								"/css/**",
+								"/flaticon/**",
+								"/fonts/**",
+								"/icon/**",
+								"/js/**",
+								"/browserconfig.xml",
+								"/favicon.ico"
+						).permitAll()
+						.requestMatchers(HttpMethod.OPTIONS).permitAll()
+						.requestMatchers("/require/login").hasAnyAuthority("MEDIXX")
+						.requestMatchers("/api/**").hasAnyAuthority("MEDIXX")
+						.anyRequest().permitAll())
+				.formLogin(form -> form.loginPage("/login"))
+				.logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/"))
+				.exceptionHandling(exception -> exception
+						.defaultAuthenticationEntryPointFor(new Http403ForbiddenEntryPoint(), new AntPathRequestMatcher("/api/**")))
+				.csrf(CsrfConfigurer::disable);
 
-		http.rememberMe().rememberMeServices(rememberMeServices());
+		http.rememberMe(remember -> remember.rememberMeServices(rememberMeServices()));
 		return http.build();
 	}
 
@@ -69,11 +70,11 @@ public class SecurityConfiguration {
 	public InMemoryUserDetailsManager userDetailsService(MedixxProperties medixxProperties) {
 		var inMemory = new InMemoryUserDetailsManager();
 		medixxProperties.getUser()
-						.forEach((name, password) -> inMemory.createUser(withUsername(name)
-																				 .password(password)
-																				 .authorities("MEDIXX")
-																				 .build())
-						);
+				.forEach((name, password) -> inMemory.createUser(withUsername(name)
+						.password(password)
+						.authorities("MEDIXX")
+						.build())
+				);
 		return inMemory;
 	}
 }
