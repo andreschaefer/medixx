@@ -1,8 +1,5 @@
 name: Test Medixx Application
 on:
-  push:
-    branches-ignore:
-      - main
   pull_request:
     branches:
       - '**'
@@ -22,5 +19,5 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Maven Test
-        run: ./mvnw -B -P test package -Ddocker.publishRegistry.username="${{ secrets.DOCKER_USER }}" -Ddocker.publishRegistry.password="${{ secrets.DOCKER_PASSWORD }}" -Drevision="2.${{github.run_number}}"
+        run: ./mvnw -B -P test package -Ddocker.publishRegistry.username="${{ secrets.DOCKER_USER }}" -Ddocker.publishRegistry.password="${{ secrets.DOCKER_PASSWORD }}" -Drevision="2.${{github.run_id}}-SNAPSHOT"
 
