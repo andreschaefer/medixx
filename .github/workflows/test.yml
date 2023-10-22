@@ -1,0 +1,23 @@
+name: Test Medixx Application
+on:
+  pull_request:
+    branches:
+      - '**'
+jobs:
+  build:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+      - name: Maven Test
+        run: ./mvnw -B -P test package -Ddocker.publishRegistry.username="${{ secrets.DOCKER_USER }}" -Ddocker.publishRegistry.password="${{ secrets.DOCKER_PASSWORD }}" -Drevision="2.${{github.run_id}}-SNAPSHOT"
+
