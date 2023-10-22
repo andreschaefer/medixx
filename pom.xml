@@ -14,7 +14,7 @@
 	<name>medixx</name>
 	<description>Medixx</description>
 	<properties>
-		<revision>2-SNAPSHOT</revision>
+		<revision>3-SNAPSHOT</revision>
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
