@@ -159,6 +159,40 @@
 					</plugin>
 				</plugins>
 			</build>
+		</profile
+		><profile>
+			<id>test</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>build-info-publish</id>
+								<goals>
+									<goal>build-info</goal>
+								</goals>
+							</execution>
+							<execution>
+								<goals>
+									<goal>build-image-no-fork</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<layers>
+								<enabled>true</enabled>
+							</layers>
+							<image>
+								<name>aschaefer/medixx:${project.version}</name>
+								<publish>false</publish>
+								<createdDate>now</createdDate>
+							</image>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 	</profiles>
 
