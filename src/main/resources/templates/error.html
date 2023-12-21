@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta name="medixx-version" content="1.4.19" th:attr="content=${@environment.getProperty('git.build.version')}"/>
+	<meta name="medixx-build" content="e26cb2e" th:attr="content=${@environment.getProperty('git.commit.id.abbrev')}"/>
+	<meta name="medixx-time" content="2023-10-11T19:28:00+0200" th:attr="content=${@environment.getProperty('git.build.time')}"/>
+
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+
+	<title>Medixx - Login</title>
+
+	<link rel="stylesheet" href="css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
+	<link rel="stylesheet" href="css/app.css" th:href="@{/css/app.css}"/>
+
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" th:href="@{/favicon.ico}"/>
+	<link rel="apple-touch-icon" href="icon/touch-icon.png" th:href="@{/icon/touch-icon.png}"/>
+	<link rel="apple-touch-icon" sizes="57x57" href="icon/touch-icon-57x57.png" th:href="@{/icon/touch-icon-57x57.png}"/>
+	<link rel="apple-touch-icon" sizes="72x72" href="icon/touch-icon-72x72.png" th:href="@{/icon/touch-icon-72x72.png}"/>
+	<link rel="apple-touch-icon" sizes="76x76" href="icon/touch-icon-76x76.png" th:href="@{/icon/touch-icon-76x76.png}"/>
+	<link rel="apple-touch-icon" sizes="114x114" href="icon/touch-icon-114x114.png" th:href="@{/icon/touch-icon-114x114.png}"/>
+	<link rel="apple-touch-icon" sizes="120x120" href="icon/touch-icon-120x120.png" th:href="@{/icon/touch-icon-120x120.png}"/>
+	<link rel="apple-touch-icon" sizes="128x128" href="icon/touch-icon-128x128.png" th:href="@{/icon/touch-icon-128x128.png}"/>
+	<link rel="apple-touch-icon" sizes="144x144" href="icon/touch-icon-144x144.png" th:href="@{/icon/touch-icon-144x144.png}"/>
+	<link rel="apple-touch-icon" sizes="152x152" href="icon/touch-icon-152x152.png" th:href="@{/icon/touch-icon-152x152.png}"/>
+	<link rel="apple-touch-icon" sizes="180x180" href="icon/touch-icon-180x180.png" th:href="@{/icon/touch-icon-180x180.png}"/>
+	<link rel="icon" type="image/png" href="icon/favicon.png" th:href="@{/icon/favicon.png}"/>
+
+	<meta name="application-name" content="Medixx"/>
+	<meta name="msapplication-tooltip" content="Medixx - Pillenverwaltung"/>
+	<meta name="msapplication-starturl" content="/"/>
+	<meta name="msapplication-config" content="browserconfig.xml"/>
+	<meta name="msapplication-TileColor" content="#aaddff"/>
+	<meta name="msapplication-TileImage" content="icon/favicon.png" th:attr="content=@{/icon/favicon.png}"/>
+
+	<meta name="apple-mobile-web-app-capable" content="no"/>
+	<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+</head>
+<body class="login-page">
+<div class="container">
+	<form class="login-form" method="get" action="/">
+		<img class="login-logo" src="icon/touch-icon-120x120.png" th:src="@{/icon/touch-icon-120x120.png}" aria-hidden="true" alt="Medixx - Login"/>
+		<h2>
+			Es ist ein Fehler aufgetreten.
+		</h2>
+		<button class="btn btn-lg btn-default btn-block" type="submit">Start</button>
+	</form>
+</div>
+</body>
+</html>
