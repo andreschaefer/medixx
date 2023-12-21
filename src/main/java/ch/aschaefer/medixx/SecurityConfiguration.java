@@ -1,5 +1,6 @@
 package ch.aschaefer.medixx;
 
+import ch.aschaefer.medixx.session.SessionSerializationExceptionFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -10,8 +11,10 @@ import org.springframework.security.config.annotation.web.configurers.CsrfConfig
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.ExceptionTranslationFilter;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.session.SessionRepository;
 import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
 
 import java.time.Duration;
@@ -22,7 +25,8 @@ import static org.springframework.security.core.userdetails.User.withUsername;
 public class SecurityConfiguration {
 
 	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	public SecurityFilterChain securityFilterChain(HttpSecurity http,
+												   SessionRepository<?> sessionRepository) throws Exception {
 		http.authorizeHttpRequests(authorize -> authorize
 						.requestMatchers(
 								"/css/**",
@@ -39,6 +43,7 @@ public class SecurityConfiguration {
 						.anyRequest().permitAll())
 				.formLogin(form -> form.loginPage("/login"))
 				.logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/"))
+				.addFilterBefore(new SessionSerializationExceptionFilter(sessionRepository), ExceptionTranslationFilter.class)
 				.exceptionHandling(exception -> exception
 						.defaultAuthenticationEntryPointFor(new Http403ForbiddenEntryPoint(), new AntPathRequestMatcher("/api/**")))
 				.csrf(CsrfConfigurer::disable);
