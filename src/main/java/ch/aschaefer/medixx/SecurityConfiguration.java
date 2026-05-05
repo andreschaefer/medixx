@@ -13,7 +13,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.ExceptionTranslationFilter;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import org.springframework.session.SessionRepository;
 import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
 
@@ -26,7 +26,7 @@ public class SecurityConfiguration {
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http,
-												   SessionRepository<?> sessionRepository) throws Exception {
+	                                               SessionRepository<?> sessionRepository) throws Exception {
 		http.authorizeHttpRequests(authorize -> authorize
 						.requestMatchers(
 								"/css/**",
@@ -45,7 +45,7 @@ public class SecurityConfiguration {
 				.logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/"))
 				.addFilterBefore(new SessionSerializationExceptionFilter(sessionRepository), ExceptionTranslationFilter.class)
 				.exceptionHandling(exception -> exception
-						.defaultAuthenticationEntryPointFor(new Http403ForbiddenEntryPoint(), new AntPathRequestMatcher("/api/**")))
+						.defaultAuthenticationEntryPointFor(new Http403ForbiddenEntryPoint(), PathPatternRequestMatcher.pathPattern("/api/**")))
 				.csrf(CsrfConfigurer::disable);
 
 		http.rememberMe(remember -> remember.rememberMeServices(rememberMeServices()));
@@ -62,8 +62,7 @@ public class SecurityConfiguration {
 
 	@Bean
 	public AuthenticationProvider authenticationProvider(InMemoryUserDetailsManager userDetailsService) {
-		var provider = new DaoAuthenticationProvider();
-		provider.setUserDetailsService(userDetailsService);
+		var provider = new DaoAuthenticationProvider(userDetailsService);
 		provider.setUserDetailsPasswordService(userDetailsService);
 		provider.setPasswordEncoder(PasswordEncoderFactories.createDelegatingPasswordEncoder());
 		return provider;

@@ -1,18 +1,13 @@
 package ch.aschaefer.medixx.utils;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.json.JsonMapper;
 
 import static ch.aschaefer.medixx.utils.ThrowableHierarchyLog.hierarchy;
+import static tools.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
+import static tools.jackson.databind.cfg.DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS;
 
 public final class JsonHelper {
 	private static final Logger LOG = LoggerFactory.getLogger(JsonHelper.class);
@@ -21,10 +16,7 @@ public final class JsonHelper {
 		// hide
 	}
 
-	private static final ObjectMapper MAPPER = initMapper();
-
-	private static final ObjectWriter PRETTY_WRITER = initWriter(/*pretty=*/true);
-	private static final ObjectWriter INLINE_WRITER = initWriter(/*pretty=*/false);
+	private static final JsonMapper MAPPER = initMapper();
 
 
 	/**
@@ -34,38 +26,11 @@ public final class JsonHelper {
 	 * @return json representation if serialize success, empty object ({}) else.
 	 */
 	public static String toJson(Object value) {
-		return toJson(value, false);
-	}
-
-	/**
-	 * create a JSONP representation of the provided object
-	 *
-	 * @param value    object to serialize
-	 * @param callback callback name
-	 * @return object rendered as JSONP
-	 */
-	public static String toJsonP(Object value, String callback) {
-		return callback + "(" + toJson(value) + ")";
-	}
-
-	/**
-	 * Write a specific value to JSON String.
-	 *
-	 * @param value  object to be serialized
-	 * @param pretty enable pretty print
-	 * @return json representation if serialize success, empty object ({}) else.
-	 */
-	public static String toJson(Object value, boolean pretty) {
 		try {
-			String result;
-			if (pretty) {
-				result = PRETTY_WRITER.writeValueAsString(value);
-			} else {
-				result = INLINE_WRITER.writeValueAsString(value);
-			}
+			String result = MAPPER.writeValueAsString(value);
 			LOG.trace("toJson({}) : {}", value, result);
 			return result;
-		} catch (JsonProcessingException e) {
+		} catch (RuntimeException e) {
 			LOG.debug("toJson({}) failed: {}", value, hierarchy(e));
 			return "{}";
 		}
@@ -85,7 +50,7 @@ public final class JsonHelper {
 				T result = MAPPER.readValue(json, clazz);
 				LOG.debug("fromJson({}) : {}", json, result);
 				return result;
-			} catch (IOException e) {
+			} catch (RuntimeException e) {
 				LOG.debug("fromJson({}) failed: {}", json, hierarchy(e));
 			}
 		}
@@ -106,7 +71,7 @@ public final class JsonHelper {
 				T result = MAPPER.readValue(json, clazz);
 				LOG.debug("fromJson({}) : {}", json, result);
 				return result;
-			} catch (IOException e) {
+			} catch (RuntimeException e) {
 				LOG.debug("fromJson({}) failed: {}", json, hierarchy(e));
 			}
 		}
@@ -125,19 +90,11 @@ public final class JsonHelper {
 		return fromJson(toJson(source), clazz);
 	}
 
-	private static ObjectMapper initMapper() {
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		mapper.registerModule(new JavaTimeModule());
-		mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-		return mapper;
+	private static JsonMapper initMapper() {
+		return JsonMapper.builder()
+				.configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
+				.disable(WRITE_DATES_AS_TIMESTAMPS)
+				.build();
 	}
 
-	private static ObjectWriter initWriter(boolean pretty) {
-		ObjectMapper mapper = initMapper();
-		if (pretty) {
-			mapper.enable(SerializationFeature.INDENT_OUTPUT);
-		}
-		return mapper.writer();
-	}
 }
