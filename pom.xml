@@ -154,8 +154,12 @@
 							<image>
 								<name>aschaefer/medixx:${project.version}</name>
 								<tags>aschaefer/medixx:latest</tags>
+								<pullPolicy>ALWAYS</pullPolicy>
 								<publish>true</publish>
 								<createdDate>now</createdDate>
+								<env>
+									<BP_SPRING_CLOUD_BINDINGS_DISABLED>true</BP_SPRING_CLOUD_BINDINGS_DISABLED>
+								</env>
 							</image>
 							<docker>
 								<publishRegistry>
